@@ -9,7 +9,7 @@
 // Inspired by http://colloquy.info/extras/details.php?file=50.
 
 /* TODO:
- - Encoding problem: e.g. s/Ã¥/x/g doesn't do anything. s/x/Ã¥/g works fine, strangely.
+ - Encoding problem: e.g. s/Š/x/g doesn't do anything. s/x/Š/g works fine, strangely.
  - Handle command injection? Probably not.
 */
 
