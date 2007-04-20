@@ -6,6 +6,8 @@
 //  Free to modify and redistribute with due credit.
 //
 
+// Inspired by http://colloquy.info/extras/details.php?file=50.
+
 /* TODO:
  - Encoding problems? E.g. Swedish åäö aren't handled well.
  - Handle command injection? Probably not.
@@ -109,7 +111,7 @@
 }
 
 
-// Applies s/// substitution to string
+// Applies substitution to string
 - (NSString *)string: (NSString *)string withSubstitution:(NSString*)substitution {
 
 	NSString *perlOneLiner = [[@"($s=<>)=~" stringByAppendingString:substitution] stringByAppendingString:@"; print $s;"];
