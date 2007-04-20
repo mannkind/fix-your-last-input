@@ -13,6 +13,7 @@
  - Fix smaller size in correction mess
  - Check memory management
  - Use a filter to _replace_ outgoing message? See Source/CBActionSupportPlugin.*
+ - Escape issues?
 */
 
 #import "Slasher.h"
@@ -22,14 +23,13 @@
 @implementation Slasher
 
 - (void)installPlugin {
-	NSLog(@"Hello");
+	NSLog(@"Slasher plugin loaded!");
 	lastOutgoing = [[NSMutableDictionary alloc] init];
 	correctionComing = NO;
 	[[adium notificationCenter] addObserver:self selector:@selector(adiumSentOrReceivedContent:) name:Content_ContentObjectAdded object:nil];
 }
 
 - (void)uninstallPlugin {
-	NSLog(@"Goodbye");
 	[lastOutgoing release];
 	[[adium notificationCenter] removeObserver:self name:Content_ContentObjectAdded object:nil];
 }
