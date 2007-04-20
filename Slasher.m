@@ -1,6 +1,6 @@
 //
 //  Slasher.m
-//  Slasher substitution plugin for Adium IM
+//  Perl regexp substitution plugin for Adium IM
 //
 //  Created by Henrik Nyh on 2007-04-19.
 //  Free to modify and redistribute with due credit.
@@ -39,7 +39,7 @@
 	return @"1.0";
 }
 - (NSString *)pluginDescription {
-	return @"Messages like \"s/foo/bar/g\" cause your previous message to be passed through that substitution and sent. Perl syntax.";
+	return @"Messages like \"s/foo/bar/g\" cause your previous message to be passed through that substitution and resent. Perl syntax.";
 }
 
 
@@ -123,7 +123,7 @@
 	[task launch];
 	
 	NSFileHandle *writeHandle = [[task standardInput] fileHandleForWriting];
-	[writeHandle writeData: [string dataUsingEncoding: NSUTF8StringEncoding]];
+	[writeHandle writeData: [string dataUsingEncoding: NSISOLatin1StringEncoding]];
 	[writeHandle closeFile];
 	
 	NSData* outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
