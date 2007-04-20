@@ -9,7 +9,6 @@
 /* TODO:
  - Tidywork
  - Åäö problems with Björn
- - Don't repeat "Correction:" when re-correcting (Don't log corrections)
  - Localized "Correction"?
  - Fix smaller size in correction mess
  - Check memory management
@@ -25,6 +24,7 @@
 - (void)installPlugin {
 	NSLog(@"Hello");
 	lastOutgoing = [[NSMutableDictionary alloc] init];
+	correctionComing = NO;
 	[[adium notificationCenter] addObserver:self selector:@selector(adiumSentOrReceivedContent:) name:Content_ContentObjectAdded object:nil];
 }
 
@@ -37,6 +37,12 @@
 
 //Content was sent or recieved
 - (void)adiumSentOrReceivedContent:(NSNotification *)notification {
+
+	// Bail if the message is a correction
+	if (correctionComing) {
+		correctionComing = NO;
+		return;
+	}
 	
 	AIContentMessage *content = [[notification userInfo] objectForKey:@"AIContentObject"];
 
@@ -93,7 +99,7 @@
     NSData* output = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
     NSString* transformedMessage = [[[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding] autorelease];
 	[task release];
-		
+	
 	NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:[@"Correction: " stringByAppendingString:transformedMessage]];
 	// Uncomment to crash :p
 	// TODO: Figure out what to collect
@@ -110,6 +116,9 @@
 		[[adium interfaceController] handleMessage:AILocalizedString(@"Contact Alert Error", nil)
 		                             withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to send message to %@.", nil), [destination displayName]]
 		                             withWindowTitle:@""];
+	} else {
+		// Delivered correction
+		correctionComing = YES;
 	}
 	
 	// Uncomment to crash :p

@@ -11,6 +11,7 @@
 
 @interface Slasher : AIPlugin {
 	NSMutableDictionary *lastOutgoing;
+	BOOL correctionComing;
 }
 
 @end
