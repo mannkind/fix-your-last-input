@@ -81,7 +81,6 @@
 			children = (
 				AF9403200BD91AB900DD2922 /* HNFixYourLastInputPlugin.m */,
 				AF9403210BD91AB900DD2922 /* HNFixYourLastInputPlugin.h */,
-				AF9403220BD91AB900DD2922 /* FixYourLastInput_Prefix.pch */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -118,6 +117,7 @@
 		32C88E010371C26100C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				AF9403220BD91AB900DD2922 /* FixYourLastInput_Prefix.pch */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
