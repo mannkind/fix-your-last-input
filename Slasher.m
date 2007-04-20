@@ -9,17 +9,18 @@
 /* TODO:
  - Tidywork
  - Åäö problems with Björn
- - Localized "Correction"?
  - Fix smaller size in correction mess
  - Check memory management
  - Use a filter to _replace_ outgoing message? See Source/CBActionSupportPlugin.*
  - Escape issues?
  - Get rid of warnings
+ - GUI error when sending s/// with error?
 */
 
 #import "Slasher.h"
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
+#import <AIUtilities/AIStringUtilities.h>
 
 @implementation Slasher
 
@@ -92,11 +93,16 @@
 		
 		// An error occurred - so bail
 		if ([transformedMessage length] == 0) {
+		
+			[[adium interfaceController] handleMessage:AILocalizedString(@"Invalid Substitution Error", nil)
+										withDescription:AILocalizedString(@"Perl threw a syntax error. You probably mistyped something.", nil) 
+										withWindowTitle:@""];
+		
 			[transformedMessage release];
 			return;
 		}
 	
-		NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:[@"Correction: " stringByAppendingString:transformedMessage]];
+		NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:[AILocalizedString(@"Correction: ", nil) stringByAppendingString:transformedMessage]];
 
 		[transformedMessage release];
 
