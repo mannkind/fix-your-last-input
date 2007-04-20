@@ -113,12 +113,12 @@
 // Applies substitution to string
 - (NSString *)string: (NSString *)string withSubstitution:(NSString*)substitution {
 
-	NSString *perlOneLiner = [[@"use utf8; binmode STDIN, ':utf8'; ($s=<>)=~" stringByAppendingString:substitution] stringByAppendingString:@"; print $s;"];
+	NSString *perlOneLiner = [[@"use utf8; binmode STDIN, ':utf8'; binmode STDOUT, ':utf8'; ($s=<>)=~" stringByAppendingString:substitution] stringByAppendingString:@"; print $s;"];
 	
 	NSTask *task = [NSTask new];
 	[task setLaunchPath:@"/usr/bin/perl"];
 	[task setArguments:[NSArray arrayWithObjects:@"-e", perlOneLiner, nil]];
-	[task setStandardInput: [NSPipe pipe]];  	
+	[task setStandardInput: [NSPipe pipe]]; 
 	[task setStandardOutput:[NSPipe pipe]];
 	[task launch];
 	
