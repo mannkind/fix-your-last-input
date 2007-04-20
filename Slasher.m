@@ -13,7 +13,6 @@
  - Check memory management
  - Use a filter to _replace_ outgoing message? See Source/CBActionSupportPlugin.*
  - Any escape issues?
- - Get rid of warnings
 */
 
 #import "Slasher.h"
