@@ -123,7 +123,7 @@
 	[task launch];
 	
 	NSFileHandle *writeHandle = [[task standardInput] fileHandleForWriting];
-	[writeHandle writeData: [string dataUsingEncoding: NSISOLatin1StringEncoding]];
+	[writeHandle writeData: [string dataUsingEncoding: NSISOLatin1StringEncoding allowLossyConversion:YES]];
 	[writeHandle closeFile];
 	
 	NSData* outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
