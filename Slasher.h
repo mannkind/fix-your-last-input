@@ -10,7 +10,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface Slasher : AIPlugin {
-	NSMutableDictionary *lastOutgoing;
+	NSMutableDictionary *lastOutgoingMessages;
 	BOOL correctionComing;
 }
 
