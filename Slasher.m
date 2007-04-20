@@ -9,7 +9,7 @@
 // Inspired by http://colloquy.info/extras/details.php?file=50.
 
 /* TODO:
- - Encoding problems? E.g. Swedish åäö aren't handled well.
+ - Encoding problem: e.g. s/å/x/g doesn't do anything. s/x/å/g works fine, strangely.
  - Handle command injection? Probably not.
 */
 
@@ -38,7 +38,7 @@
 	return @"1.0";
 }
 - (NSString *)pluginDescription {
-	return @"Messages like \"s/foo/bar/g\" cause your previous message to be passed through that substitution and resent. Perl syntax.";
+	return @"Fix typos by writing Perl regular expression substitutions like \"s/tyop/typo/g\". Sending a message comprising a substitution will output your previous message with this correction applied.";
 }
 
 
@@ -114,7 +114,6 @@
 
 	NSString *perlOneLiner = [NSString stringWithFormat:@"use utf8; binmode STDIN, ':utf8'; binmode STDOUT, ':utf8'; ($s=<>)=~%@; print $s;", substitution];
 
-	
 	NSTask *task = [NSTask new];
 	[task setLaunchPath:@"/usr/bin/perl"];
 	[task setArguments:[NSArray arrayWithObjects:@"-e", perlOneLiner, nil]];
