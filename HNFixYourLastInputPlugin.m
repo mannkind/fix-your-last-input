@@ -1,8 +1,8 @@
 //
-//  Slasher.m
-//  Perl regexp substitution plugin for Adium IM
+//  HNFixYourLastInputPlugin.m
+//  Perl regexp substitution plugin for Adium IM.
 //
-//  Created by Henrik Nyh on 2007-04-19.
+//  By Henrik Nyh, 2007-04-19.
 //  Free to modify and redistribute with due credit.
 //
 
@@ -13,19 +13,19 @@
  - Handle command injection? Probably not.
 */
 
-#import "Slasher.h"
+#import "HNFixYourLastInputPlugin.h"
 #import <Adium/AIAdiumProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
 #import <AIUtilities/AIStringUtilities.h>
 
 
-@interface Slasher (Private)
+@interface HNFixYourLastInputPlugin (Private)
 - (NSString *)string: (NSString *)string withSubstitution:(NSString*)substitution;
 @end
 
 
-@implementation Slasher
+@implementation HNFixYourLastInputPlugin
 
 
 - (NSString *)pluginAuthor {
@@ -44,7 +44,7 @@
 
 - (void)installPlugin {
 
-	NSLog(@"Slasher plugin loaded!");
+	NSLog(@"HNFixYourLastInputPlugin loaded!");
 
 	lastOutgoingMessages = [[NSMutableDictionary alloc] init];
 
@@ -133,7 +133,7 @@
 	[task release];
 	
 	if ([errorString length] > 0) {
-		NSLog(@"Slasher Perl error: %@", errorString);
+		NSLog(@"Fix Your Last Input plugin Perl error: %@", errorString);
 		return NO;
 	}
 		
