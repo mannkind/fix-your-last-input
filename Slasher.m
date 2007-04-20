@@ -13,6 +13,7 @@
  - Localized "Correction"?
  - Fix smaller size in correction mess
  - Check memory management
+ - Use a filter to _replace_ outgoing message? See Source/CBActionSupportPlugin.*
 */
 
 #import "Slasher.h"
@@ -99,7 +100,17 @@
 //	[transformedMessage release];
 
 		AIContentMessage *newMessage = [[AIContentMessage alloc] initWithChat:chat source:source destination:destination date:[NSDate date] message:newMessageText];
-	[[adium contentController] sendContentObject:newMessage];
+
+
+	// Send message
+	BOOL success = [[adium contentController] sendContentObject:newMessage];
+
+	// Display an error message if the message was not delivered
+	if (!success) {
+		[[adium interfaceController] handleMessage:AILocalizedString(@"Contact Alert Error", nil)
+		                             withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to send message to %@.", nil), [destination displayName]]
+		                             withWindowTitle:@""];
+	}
 	
 	// Uncomment to crash :p
 	//	[newMessageText release];
