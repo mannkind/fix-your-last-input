@@ -62,7 +62,8 @@
 	AIContentMessage *message = [[notification userInfo] objectForKey:@"AIContentObject"];
 
 	// Bail unless it's a message
-	if (![[message type] isEqualToString:CONTENT_MESSAGE_TYPE] && ![message postProcessContent]) return;
+	if (![[message type] isEqualToString:CONTENT_MESSAGE_TYPE] && ![message postProcessContent])
+		return;
 
 	AIChat *chat = [notification object];
 	AIListObject *source = [message source];
@@ -70,12 +71,14 @@
 	NSString *messageString = [message messageString];
 	
 	// Bail unless it's outgoing
-	if (![message isOutgoing]) return;
+	if (![message isOutgoing])
+		return;
 
 	// Bail if the message wasn't written just now
 	// Casting from NSTimeInterval==double to int
 	NSTimeInterval writtenSecondsAgo = [[NSDate date] timeIntervalSinceDate:[message date]];
-	if ((int)writtenSecondsAgo != 0) return;
+	if ((int)writtenSecondsAgo != 0)
+		return;
 
 	// Naive way of determining if it's a transform message
 	BOOL isATransform = [messageString hasPrefix:@"s/"] && ([[messageString componentsSeparatedByString:@"/"] count] == 4) && ([[messageString componentsSeparatedByString:@"\n"] count] == 1);
