@@ -48,7 +48,6 @@
 	NSLog(@"Slasher plugin loaded!");
 
 	lastOutgoingMessages = [[NSMutableDictionary alloc] init];
-	correctionComing = NO;
 
 	[[adium contentController] registerContentFilter:self ofType:AIFilterContent direction:AIFilterOutgoing];
 }

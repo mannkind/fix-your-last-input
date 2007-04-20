@@ -13,7 +13,6 @@
 
 @interface Slasher : AIPlugin <AIContentFilter> {
 	NSMutableDictionary *lastOutgoingMessages;
-	BOOL correctionComing;
 }
 
 @end
