@@ -9,7 +9,6 @@
 /* TODO:
  - Tidywork
  - Åäö problems with Björn
- - Fix smaller size in correction mess
  - Use a filter to _replace_ outgoing message? See Source/CBActionSupportPlugin.*
  - Any escape issues?
 */
@@ -105,7 +104,7 @@
 	// Compose new message
 	
 	// Set text
-	NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:[AILocalizedString(@"Correction: ", nil) stringByAppendingString:transformedMessage]];
+	NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:[AILocalizedString(@"Correction: ", nil) stringByAppendingString:transformedMessage] attributes:[[adium contentController] defaultFormattingAttributes]];
 
 	// Create message proper
 	AIContentMessage *newMessage = [[AIContentMessage alloc] initWithChat:chat source:source destination:destination date:[NSDate date] message:newMessageText];
