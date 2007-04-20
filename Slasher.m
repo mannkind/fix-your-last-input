@@ -19,16 +19,26 @@
 #import <AIUtilities/AIStringUtilities.h>
 
 
-#import <Adium/AIChat.h>
-#import <Adium/AIAccount.h>
-
-
 @interface Slasher (Private)
 - (NSString *)string: (NSString *)string withSubstitution:(NSString*)substitution;
 @end
 
 
 @implementation Slasher
+
+
+- (NSString *)pluginAuthor {
+	return @"Henrik Nyh";
+}
+- (NSString *)pluginURL {
+	return @"http://henrik.nyh.se/";
+}
+- (NSString *)pluginVersion {
+	return @"1.0";
+}
+- (NSString *)pluginDescription {
+	return @"Messages like \"s/foo/bar/g\" cause your previous message to be passed through that substitution and sent. Perl syntax.";
+}
 
 
 - (void)installPlugin {
