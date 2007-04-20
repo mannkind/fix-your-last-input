@@ -12,9 +12,8 @@
  - Fix smaller size in correction mess
  - Check memory management
  - Use a filter to _replace_ outgoing message? See Source/CBActionSupportPlugin.*
- - Escape issues?
+ - Any escape issues?
  - Get rid of warnings
- - GUI error when sending s/// with error?
 */
 
 #import "Slasher.h"
@@ -70,67 +69,69 @@
 	// Naive way of determining if it's a transform message
 	BOOL isATransform = [messageString hasPrefix:@"s/"] && ([[messageString componentsSeparatedByString:@"/"] count] == 4) && ([[messageString componentsSeparatedByString:@"\n"] count] == 1);
 
-	if (isATransform && lastMessageString) {
-		
-		NSString *perlOneLiner = [[@"($s=<>)=~" stringByAppendingString:messageString] stringByAppendingString:@"; print $s;"];
-		
-		NSTask *task = [NSTask new];
-		[task setLaunchPath:@"/usr/bin/perl"];
-		[task setArguments:[NSArray arrayWithObjects:@"-e", perlOneLiner, nil]];
-		[task setStandardInput: [NSPipe pipe]];  	
-		[task setStandardOutput:[NSPipe pipe]];
-		[task launch];
-	
-		NSFileHandle *writeHandle = [[task standardInput] fileHandleForWriting];
-	
-		// Pipe in last message
-		[writeHandle writeData: [lastMessageString dataUsingEncoding: NSUTF8StringEncoding]];
-		[writeHandle closeFile];
-	
-		NSData* output = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
-		NSString* transformedMessage = [[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding];
-		[task release];
-		
-		// An error occurred - so bail
-		if ([transformedMessage length] == 0) {
-		
-			[[adium interfaceController] handleMessage:AILocalizedString(@"Invalid Substitution Error", nil)
-										withDescription:AILocalizedString(@"Perl threw a syntax error. You probably mistyped something.", nil) 
-										withWindowTitle:@""];
-		
-			[transformedMessage release];
-			return;
-		}
-	
-		NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:[AILocalizedString(@"Correction: ", nil) stringByAppendingString:transformedMessage]];
-
-		[transformedMessage release];
-
-		AIContentMessage *newMessage = [[AIContentMessage alloc] initWithChat:chat source:source destination:destination date:[NSDate date] message:newMessageText];
-
-
-		// Send message
-		BOOL success = [[adium contentController] sendContentObject:newMessage];
-
-		// Display an error message if the message was not delivered
-		if (!success) {
-			[[adium interfaceController] handleMessage:AILocalizedString(@"Contact Alert Error", nil)
-										withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to send message to %@.", nil), [destination displayName]]
-										withWindowTitle:@""];
-		} else {
-			// Delivered correction
-			correctionComing = YES;
-		}
-	
-		// Uncomment to crash :p
-		//	[newMessageText release];
-
-		[newMessage release];
-
-		
-	} else {  // Conditional to avoid loops
+	// Bail if last message wasn't a transform, or there is no history
+	if (!isATransform || !lastMessageString) {
 		[lastOutgoingMessages setValue:[message messageString] forKey:[destination UID]];
+		return;
 	}
+	
+	NSString *transformedMessage = [self string:lastMessageString withSubstitution:messageString];
+	
+	// An error occurred - so bail
+	if ([transformedMessage length] == 0) {
+	
+		[[adium interfaceController] handleMessage:AILocalizedString(@"Invalid Substitution Error", nil)
+									withDescription:AILocalizedString(@"Perl threw a syntax error. You probably mistyped something.", nil) 
+									withWindowTitle:@""];
+		return;
+	}
+
+	NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:[AILocalizedString(@"Correction: ", nil) stringByAppendingString:transformedMessage]];
+
+	AIContentMessage *newMessage = [[AIContentMessage alloc] initWithChat:chat source:source destination:destination date:[NSDate date] message:newMessageText];
+
+
+	// Send message
+	BOOL success = [[adium contentController] sendContentObject:newMessage];
+
+	// Display an error message if the message was not delivered
+	if (!success) {
+		[[adium interfaceController] handleMessage:AILocalizedString(@"Contact Alert Error", nil)
+									withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to send message to %@.", nil), [destination displayName]]
+									withWindowTitle:@""];
+	} else {
+		// Delivered correction
+		correctionComing = YES;
+	}
+
+	// Uncomment to crash :p
+	//	[newMessageText release];
+
+	[newMessage release];
+
+}
+
+
+- (NSString *)string: (NSString *)string withSubstitution:(NSString*)substitution {
+
+	NSString *perlOneLiner = [[@"($s=<>)=~" stringByAppendingString:substitution] stringByAppendingString:@"; print $s;"];
+	
+	NSTask *task = [NSTask new];
+	[task setLaunchPath:@"/usr/bin/perl"];
+	[task setArguments:[NSArray arrayWithObjects:@"-e", perlOneLiner, nil]];
+	[task setStandardInput: [NSPipe pipe]];  	
+	[task setStandardOutput:[NSPipe pipe]];
+	[task launch];
+	
+	NSFileHandle *writeHandle = [[task standardInput] fileHandleForWriting];
+	[writeHandle writeData: [string dataUsingEncoding: NSUTF8StringEncoding]];
+	[writeHandle closeFile];
+	
+	NSData* outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
+	NSString* outputString = [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
+	[task release];
+		
+	return [outputString autorelease];
 }
 
 
