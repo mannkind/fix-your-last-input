@@ -113,7 +113,7 @@
 // Applies substitution to string
 - (NSString *)string: (NSString *)string withSubstitution:(NSString*)substitution {
 
-	NSString *perlOneLiner = [[@"($s=<>)=~" stringByAppendingString:substitution] stringByAppendingString:@"; print $s;"];
+	NSString *perlOneLiner = [[@"use utf8; binmode STDIN, ':utf8'; ($s=<>)=~" stringByAppendingString:substitution] stringByAppendingString:@"; print $s;"];
 	
 	NSTask *task = [NSTask new];
 	[task setLaunchPath:@"/usr/bin/perl"];
@@ -123,7 +123,7 @@
 	[task launch];
 	
 	NSFileHandle *writeHandle = [[task standardInput] fileHandleForWriting];
-	[writeHandle writeData: [string dataUsingEncoding: NSISOLatin1StringEncoding allowLossyConversion:YES]];
+	[writeHandle writeData: [string dataUsingEncoding: NSUTF8StringEncoding]];
 	[writeHandle closeFile];
 	
 	NSData* outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
