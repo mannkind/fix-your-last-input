@@ -62,11 +62,11 @@
 	if (![message isOutgoing]) return;
 
 	// Bail if the message wasn't written now (is old)
-	// Cast from NSTimeInterval==double
+	// Casting from NSTimeInterval==double to int
 	int writtenSecondsAgo = [[NSDate date] timeIntervalSinceDate:[message date]];
 	if (writtenSecondsAgo != 0) return;
 
-		
+	// Naive way of determining if it's a transform message
 	BOOL isATransform = [messageString hasPrefix:@"s/"] && ([[messageString componentsSeparatedByString:@"/"] count] == 4) && ([[messageString componentsSeparatedByString:@"\n"] count] == 1);
 
 	if (isATransform && lastMessageString) {
@@ -78,7 +78,6 @@
 		[task setArguments:[NSArray arrayWithObjects:@"-e", perlOneLiner, nil]];
 		[task setStandardInput: [NSPipe pipe]];  	
 		[task setStandardOutput:[NSPipe pipe]];
-		[task setStandardError:[task standardOutput]];
 		[task launch];
 	
 		NSFileHandle *writeHandle = [[task standardInput] fileHandleForWriting];
@@ -88,13 +87,18 @@
 		[writeHandle closeFile];
 	
 		NSData* output = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
-		NSString* transformedMessage = [[[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding] autorelease];
+		NSString* transformedMessage = [[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding];
 		[task release];
+		
+		// An error occurred - so bail
+		if ([transformedMessage length] == 0) {
+			[transformedMessage release];
+			return;
+		}
 	
 		NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:[@"Correction: " stringByAppendingString:transformedMessage]];
-	// Uncomment to crash :p
-	// TODO: Figure out what to collect
-//	[transformedMessage release];
+
+		[transformedMessage release];
 
 		AIContentMessage *newMessage = [[AIContentMessage alloc] initWithChat:chat source:source destination:destination date:[NSDate date] message:newMessageText];
 
