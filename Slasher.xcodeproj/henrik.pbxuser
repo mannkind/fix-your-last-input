@@ -14,7 +14,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					503,
+					605,
 					20,
 					48,
 					43,
@@ -79,6 +79,27 @@
 			AF3BE4950BD8202F00AA0E8F = AF3BE4950BD8202F00AA0E8F /* PBXTextBookmark */;
 			AF3BE4960BD8202F00AA0E8F = AF3BE4960BD8202F00AA0E8F /* PBXTextBookmark */;
 			AF3BE4980BD8202F00AA0E8F = AF3BE4980BD8202F00AA0E8F /* PBXTextBookmark */;
+			AF3BE7410BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7410BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7420BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7420BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7430BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7430BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7440BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7440BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7450BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7450BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7460BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7460BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7470BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7470BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7480BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7480BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7490BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7490BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE74A0BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE74A0BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE74B0BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE74B0BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE74C0BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE74C0BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE74D0BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE74D0BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE74E0BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE74E0BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE74F0BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE74F0BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7500BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7500BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7510BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7510BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7520BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7520BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7530BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7530BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7540BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7540BD8ABCF00AA0E8F /* PBXTextBookmark */;
+			AF3BE7550BD8ABCF00AA0E8F /* PBXTextBookmark */ = AF3BE7550BD8ABCF00AA0E8F /* PBXTextBookmark */;
 		};
 		sourceControlManager = AF3BE2890BD8015800AA0E8F /* Source Control */;
 		userBuildSettings = {
@@ -101,17 +122,17 @@
 	};
 	AF3BE29C0BD801C100AA0E8F /* Slasher.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {701, 557}}";
-			sepNavSelRange = "{220, 34}";
-			sepNavVisRect = "{{0, 0}, {701, 557}}";
+			sepNavIntBoundsRect = "{{0, 0}, {803, 660}}";
+			sepNavSelRange = "{306, 0}";
+			sepNavVisRect = "{{0, 0}, {803, 660}}";
 			sepNavWindowFrame = "{{403, -90}, {1027, 778}}";
 		};
 	};
 	AF3BE29D0BD801C100AA0E8F /* Slasher.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {701, 966}}";
-			sepNavSelRange = "{1397, 0}";
-			sepNavVisRect = "{{0, 409}, {701, 557}}";
+			sepNavIntBoundsRect = "{{0, 0}, {803, 2016}}";
+			sepNavSelRange = "{3528, 0}";
+			sepNavVisRect = "{{0, 0}, {803, 660}}";
 			sepNavWindowFrame = "{{161, -26}, {1027, 778}}";
 		};
 	};
@@ -130,7 +151,7 @@
 		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
 		name = "Slasher.h: 13";
 		rLen = 0;
-		rLoc = 217;
+		rLoc = 244;
 		rType = 0;
 		vrLen = 230;
 		vrLoc = 0;
@@ -140,7 +161,7 @@
 		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
 		name = "Slasher.m: installPlugin";
 		rLen = 0;
-		rLoc = 539;
+		rLoc = 911;
 		rType = 0;
 		vrLen = 282;
 		vrLoc = 0;
@@ -156,7 +177,7 @@
 		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
 		name = "Slasher.h: 14";
 		rLen = 0;
-		rLoc = 217;
+		rLoc = 244;
 		rType = 0;
 		vrLen = 263;
 		vrLoc = 0;
@@ -166,7 +187,7 @@
 		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
 		name = "Slasher.m: 10";
 		rLen = 0;
-		rLoc = 272;
+		rLoc = 589;
 		rType = 0;
 		vrLen = 741;
 		vrLoc = 0;
@@ -176,7 +197,7 @@
 		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
 		name = "Slasher.h: 13";
 		rLen = 0;
-		rLoc = 188;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 263;
 		vrLoc = 0;
@@ -186,7 +207,7 @@
 		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
 		name = "Slasher.m: 10";
 		rLen = 0;
-		rLoc = 272;
+		rLoc = 589;
 		rType = 0;
 		vrLen = 741;
 		vrLoc = 0;
@@ -196,7 +217,7 @@
 		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
 		name = "Slasher.h: 10";
 		rLen = 0;
-		rLoc = 186;
+		rLoc = 213;
 		rType = 0;
 		vrLen = 259;
 		vrLoc = 0;
@@ -206,7 +227,7 @@
 		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
 		name = "- (void)installPlugin";
 		rLen = 23;
-		rLoc = 344;
+		rLoc = 615;
 		rType = 0;
 		vrLen = 736;
 		vrLoc = 0;
@@ -216,7 +237,7 @@
 		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
 		name = "Slasher.h: 10";
 		rLen = 0;
-		rLoc = 186;
+		rLoc = 213;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -226,7 +247,7 @@
 		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
 		name = "Slasher.h: 14";
 		rLen = 0;
-		rLoc = 217;
+		rLoc = 244;
 		rType = 0;
 		vrLen = 259;
 		vrLoc = 0;
@@ -236,7 +257,7 @@
 		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
 		name = "Slasher.m: 12";
 		rLen = 0;
-		rLoc = 239;
+		rLoc = 589;
 		rType = 0;
 		vrLen = 719;
 		vrLoc = 555;
@@ -246,7 +267,7 @@
 		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
 		name = "Slasher.h: 12";
 		rLen = 0;
-		rLoc = 254;
+		rLoc = 314;
 		rType = 0;
 		vrLen = 228;
 		vrLoc = 0;
@@ -256,7 +277,7 @@
 		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
 		name = "Slasher.m: 19";
 		rLen = 0;
-		rLoc = 390;
+		rLoc = 762;
 		rType = 0;
 		vrLen = 705;
 		vrLoc = 0;
@@ -265,8 +286,8 @@
 		isa = PBXTextBookmark;
 		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
 		name = "NSAttributedString *lastOutgoing;";
-		rLen = 34;
-		rLoc = 220;
+		rLen = 43;
+		rLoc = 247;
 		rType = 0;
 		vrLen = 263;
 		vrLoc = 0;
@@ -276,7 +297,7 @@
 		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
 		name = "Slasher.m: 43";
 		rLen = 0;
-		rLoc = 1303;
+		rLoc = 1848;
 		rType = 0;
 		vrLen = 1192;
 		vrLoc = 0;
@@ -285,8 +306,8 @@
 		isa = PBXTextBookmark;
 		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
 		name = "NSAttributedString *lastOutgoing;";
-		rLen = 34;
-		rLoc = 220;
+		rLen = 43;
+		rLoc = 247;
 		rType = 0;
 		vrLen = 263;
 		vrLoc = 0;
@@ -296,7 +317,7 @@
 		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
 		name = "Slasher.m: 48";
 		rLen = 0;
-		rLoc = 1397;
+		rLoc = 1990;
 		rType = 0;
 		vrLen = 1379;
 		vrLoc = 699;
@@ -325,7 +346,7 @@
 		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
 		name = "Slasher.m: 48";
 		rLen = 0;
-		rLoc = 1397;
+		rLoc = 1990;
 		rType = 0;
 		vrLen = 1379;
 		vrLoc = 699;
@@ -352,9 +373,219 @@
 		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
 		name = "Slasher.m: 19";
 		rLen = 0;
-		rLoc = 390;
+		rLoc = 762;
 		rType = 0;
 		vrLen = 0;
+		vrLoc = 0;
+	};
+	AF3BE7410BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE4940BD8202F00AA0E8F /* AIChatController.m */;
+		name = "AIChatController.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 947;
+		vrLoc = 513;
+	};
+	AF3BE7420BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
+		name = "Slasher.m: 100";
+		rLen = 0;
+		rLoc = 3528;
+		rType = 0;
+		vrLen = 1261;
+		vrLoc = 0;
+	};
+	AF3BE7430BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
+		name = "Slasher.h: lastOutgoingMessages";
+		rLen = 0;
+		rLoc = 280;
+		rType = 0;
+		vrLen = 323;
+		vrLoc = 0;
+	};
+	AF3BE7440BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE4940BD8202F00AA0E8F /* AIChatController.m */;
+		name = "AIChatController.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 947;
+		vrLoc = 513;
+	};
+	AF3BE7450BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
+		name = "NSAttributedString *lastOutgoing;";
+		rLen = 43;
+		rLoc = 247;
+		rType = 0;
+		vrLen = 263;
+		vrLoc = 0;
+	};
+	AF3BE7460BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
+		name = "Slasher.m: 42";
+		rLen = 0;
+		rLoc = 1847;
+		rType = 0;
+		vrLen = 1361;
+		vrLoc = 694;
+	};
+	AF3BE7470BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
+		name = "Slasher.h: lastOutgoing";
+		rLen = 0;
+		rLoc = 267;
+		rType = 0;
+		vrLen = 264;
+		vrLoc = 0;
+	};
+	AF3BE7480BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
+		name = "Slasher.m: 64";
+		rLen = 0;
+		rLoc = 4667;
+		rType = 0;
+		vrLen = 1430;
+		vrLoc = 743;
+	};
+	AF3BE7490BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
+		name = "Slasher.h: lastOutgoing";
+		rLen = 0;
+		rLoc = 250;
+		rType = 0;
+		vrLen = 264;
+		vrLoc = 0;
+	};
+	AF3BE74A0BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
+		name = "Slasher.m: 62";
+		rLen = 0;
+		rLoc = 4579;
+		rType = 0;
+		vrLen = 1430;
+		vrLoc = 743;
+	};
+	AF3BE74B0BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
+		name = "Slasher.h: lastOutgoing";
+		rLen = 0;
+		rLoc = 250;
+		rType = 0;
+		vrLen = 264;
+		vrLoc = 0;
+	};
+	AF3BE74C0BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
+		name = "Slasher.m: 115";
+		rLen = 0;
+		rLoc = 4445;
+		rType = 0;
+		vrLen = 1599;
+		vrLoc = 2867;
+	};
+	AF3BE74D0BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
+		name = "Slasher.h: correction";
+		rLen = 0;
+		rLoc = 314;
+		rType = 0;
+		vrLen = 282;
+		vrLoc = 0;
+	};
+	AF3BE74E0BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
+		name = "Slasher.m: 115";
+		rLen = 0;
+		rLoc = 4445;
+		rType = 0;
+		vrLen = 1597;
+		vrLoc = 2869;
+	};
+	AF3BE74F0BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
+		name = "Slasher.h: correctionComing";
+		rLen = 0;
+		rLoc = 313;
+		rType = 0;
+		vrLen = 288;
+		vrLoc = 0;
+	};
+	AF3BE7500BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
+		name = "//  Free to modify and redistribute with due credit.";
+		rLen = 52;
+		rLoc = 106;
+		rType = 0;
+		vrLen = 1206;
+		vrLoc = 0;
+	};
+	AF3BE7510BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
+		name = "//  Slasher substitution plugin for Adium IM";
+		rLen = 44;
+		rLoc = 17;
+		rType = 0;
+		vrLen = 315;
+		vrLoc = 0;
+	};
+	AF3BE7520BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
+		name = "Slasher.m: 76";
+		rLen = 0;
+		rLoc = 2157;
+		rType = 0;
+		vrLen = 2001;
+		vrLoc = 1647;
+	};
+	AF3BE7530BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
+		name = "Slasher.h: lastOutgoingMessages";
+		rLen = 0;
+		rLoc = 280;
+		rType = 0;
+		vrLen = 323;
+		vrLoc = 0;
+	};
+	AF3BE7540BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29D0BD801C100AA0E8F /* Slasher.m */;
+		name = "Slasher.m: 100";
+		rLen = 0;
+		rLoc = 3528;
+		rType = 0;
+		vrLen = 1261;
+		vrLoc = 0;
+	};
+	AF3BE7550BD8ABCF00AA0E8F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AF3BE29C0BD801C100AA0E8F /* Slasher.h */;
+		name = "Slasher.h: correctionComing";
+		rLen = 0;
+		rLoc = 306;
+		rType = 0;
+		vrLen = 323;
 		vrLoc = 0;
 	};
 }

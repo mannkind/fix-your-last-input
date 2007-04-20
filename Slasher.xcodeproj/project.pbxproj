@@ -23,9 +23,9 @@
 		32DBCF630370AF2F00C91783 /* Slasher_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slasher_Prefix.pch; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Slasher.AdiumPlugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Slasher.AdiumPlugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
-		AF3BE28C0BD8018300AA0E8F /* Adium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Adium.framework; path = /tmp/Adium1.0.2/build/Deployment/Adium.framework; sourceTree = "<absolute>"; };
-		AF3BE2900BD8018C00AA0E8F /* AIUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AIUtilities.framework; path = /tmp/Adium1.0.2/build/Deployment/AIUtilities.framework; sourceTree = "<absolute>"; };
-		AF3BE2940BD801A900AA0E8F /* FriBidi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FriBidi.framework; path = /tmp/Adium1.0.2/Frameworks/FriBidi.framework; sourceTree = "<absolute>"; };
+		AF3BE28C0BD8018300AA0E8F /* Adium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Adium.framework; sourceTree = "<group>"; };
+		AF3BE2900BD8018C00AA0E8F /* AIUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AIUtilities.framework; sourceTree = "<group>"; };
+		AF3BE2940BD801A900AA0E8F /* FriBidi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FriBidi.framework; sourceTree = "<group>"; };
 		AF3BE29C0BD801C100AA0E8F /* Slasher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slasher.h; sourceTree = "<group>"; };
 		AF3BE29D0BD801C100AA0E8F /* Slasher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slasher.m; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
