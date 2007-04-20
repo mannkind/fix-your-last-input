@@ -17,9 +17,17 @@
 */
 
 #import "Slasher.h"
+#import <Adium/AIAdiumProtocol.h>
+#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
 #import <AIUtilities/AIStringUtilities.h>
+
+
+@interface Slasher (Private)
+- (NSString *)string: (NSString *)string withSubstitution:(NSString*)substitution;
+@end
+
 
 @implementation Slasher
 
@@ -61,8 +69,7 @@
 	AIChat *chat = [notification object];
 	AIListObject *source = [message source];
 	AIListObject *destination = [message destination];
-	AIAccount *account = [chat account];
-	NSAttributedString *messageString = [message messageString];
+	NSString *messageString = [message messageString];
 	
 	// Bail unless it's outgoing
 	if (![message isOutgoing]) return;
@@ -75,7 +82,7 @@
 	// Naive way of determining if it's a transform message
 	BOOL isATransform = [messageString hasPrefix:@"s/"] && ([[messageString componentsSeparatedByString:@"/"] count] == 4) && ([[messageString componentsSeparatedByString:@"\n"] count] == 1);
 	
-	NSAttributedString *lastMessageString = [lastOutgoingMessages valueForKey:[destination UID]];
+	NSString *lastMessageString = [lastOutgoingMessages valueForKey:[destination UID]];
 
 	// Bail if last message wasn't a transform, or there is no history
 	if (!isATransform || !lastMessageString) {
