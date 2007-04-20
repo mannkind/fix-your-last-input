@@ -7,10 +7,8 @@
 //
 
 /* TODO:
- - Tidywork
- - Åäö problems with Björn
- - Use a filter to _replace_ outgoing message? See Source/CBActionSupportPlugin.*
- - Any escape issues?
+ - Encoding problems? E.g. Swedish åäö aren't handled well.
+ - Handle command injection? Probably not.
 */
 
 #import "Slasher.h"
@@ -19,6 +17,10 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
 #import <AIUtilities/AIStringUtilities.h>
+
+
+#import <Adium/AIChat.h>
+#import <Adium/AIAccount.h>
 
 
 @interface Slasher (Private)
@@ -36,7 +38,7 @@
 	lastOutgoingMessages = [[NSMutableDictionary alloc] init];
 	correctionComing = NO;
 
-	[[adium notificationCenter] addObserver:self selector:@selector(adiumSentOrReceivedContent:) name:Content_ContentObjectAdded object:nil];
+	[[adium contentController] registerContentFilter:self ofType:AIFilterContent direction:AIFilterOutgoing];
 }
 
 
@@ -44,40 +46,27 @@
 
 	[lastOutgoingMessages release];
 
-	[[adium notificationCenter] removeObserver:self name:Content_ContentObjectAdded object:nil];
+	[[adium contentController] unregisterContentFilter:self];
 }
 
 
+- (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context {
 
-// Content was sent or recieved
-- (void)adiumSentOrReceivedContent:(NSNotification *)notification {
-
-	// Bail if the message is a correction
-	if (correctionComing) {
-		correctionComing = NO;
-		return;
-	}
+	BOOL isMessage = ([context isKindOfClass:[AIContentMessage class]] && ![(AIContentMessage *)context isAutoreply]);
 	
-	AIContentMessage *message = [[notification userInfo] objectForKey:@"AIContentObject"];
-
 	// Bail unless it's a message
-	if (![[message type] isEqualToString:CONTENT_MESSAGE_TYPE] && ![message postProcessContent])
-		return;
+	if (!isMessage)
+		return inAttributedString;
 
-	AIChat *chat = [notification object];
-	AIListObject *source = [message source];
-	AIListObject *destination = [message destination];
-	NSString *messageString = [message messageString];
-	
-	// Bail unless it's outgoing
-	if (![message isOutgoing])
-		return;
+	id destination = [context destination];
+	NSDate *date = [context date];
+	NSString *messageString = [context messageString];
 
 	// Bail if the message wasn't written just now
 	// Casting from NSTimeInterval==double to int
-	NSTimeInterval writtenSecondsAgo = [[NSDate date] timeIntervalSinceDate:[message date]];
+	NSTimeInterval writtenSecondsAgo = [[NSDate date] timeIntervalSinceDate:date];
 	if ((int)writtenSecondsAgo != 0)
-		return;
+		return inAttributedString;
 
 	// Naive way of determining if it's a transform message
 	BOOL isATransform = [messageString hasPrefix:@"s/"] && ([[messageString componentsSeparatedByString:@"/"] count] == 4) && ([[messageString componentsSeparatedByString:@"\n"] count] == 1);
@@ -86,45 +75,29 @@
 
 	// Bail if last message wasn't a transform, or there is no history
 	if (!isATransform || !lastMessageString) {
-		[lastOutgoingMessages setValue:[message messageString] forKey:[destination UID]];
-		return;
+		[lastOutgoingMessages setValue:messageString forKey:[destination UID]];
+		return inAttributedString;
 	}
 	
 	NSString *transformedMessage = [self string:lastMessageString withSubstitution:messageString];
 	
 	// Bail if an error occurred in Perl
-	if ([transformedMessage length] == 0) {
+	if ([transformedMessage length] == 0)
+		return inAttributedString;
 	
-		[[adium interfaceController] handleMessage:AILocalizedString(@"Invalid Substitution Error", nil)
-									withDescription:AILocalizedString(@"Perl threw a syntax error. You probably mistyped something.", nil) 
-									withWindowTitle:@""];
-		return;
-	}
-	
-	// Compose new message
-	
-	// Set text
-	NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:[AILocalizedString(@"Correction: ", nil) stringByAppendingString:transformedMessage] attributes:[[adium contentController] defaultFormattingAttributes]];
+	// Set new message text
+	NSString *newMessageRawText = [NSString stringWithFormat:AILocalizedString(@"Correction (%@): %@", nil), messageString, transformedMessage];
+	NSDictionary *defaultFormatting = [[adium contentController] defaultFormattingAttributes];
+	NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:newMessageRawText attributes:defaultFormatting];
 
-	// Create message proper
-	AIContentMessage *newMessage = [[AIContentMessage alloc] initWithChat:chat source:source destination:destination date:[NSDate date] message:newMessageText];
-	[newMessageText release];
-
-	// Send message
-	BOOL success = [[adium contentController] sendContentObject:newMessage];
-	[newMessage release];
-
-	// Display an error message if the message was not delivered
-	if (!success) {
-		[[adium interfaceController] handleMessage:AILocalizedString(@"Contact Alert Error", nil)
-									withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to send message to %@.", nil), [destination displayName]]
-									withWindowTitle:@""];
-	} else {
-		// We delivered a correction
-		correctionComing = YES;  // Let's not track it in our substitution history
-	}
-
+	return newMessageText;
 }
+
+
+- (float)filterPriority {
+	return DEFAULT_FILTER_PRIORITY;
+}
+
 
 // Applies s/// substitution to string
 - (NSString *)string: (NSString *)string withSubstitution:(NSString*)substitution {

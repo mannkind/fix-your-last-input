@@ -9,7 +9,9 @@
 #import <Adium/AIPlugin.h>
 #import <Cocoa/Cocoa.h>
 
-@interface Slasher : AIPlugin {
+@protocol AIContentFilter;
+
+@interface Slasher : AIPlugin <AIContentFilter> {
 	NSMutableDictionary *lastOutgoingMessages;
 	BOOL correctionComing;
 }
