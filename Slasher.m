@@ -10,7 +10,6 @@
  - Tidywork
  - Åäö problems with Björn
  - Fix smaller size in correction mess
- - Check memory management
  - Use a filter to _replace_ outgoing message? See Source/CBActionSupportPlugin.*
  - Any escape issues?
 */
@@ -107,10 +106,11 @@
 
 	// Create message proper
 	AIContentMessage *newMessage = [[AIContentMessage alloc] initWithChat:chat source:source destination:destination date:[NSDate date] message:newMessageText];
-
+	[newMessageText release];
 
 	// Send message
 	BOOL success = [[adium contentController] sendContentObject:newMessage];
+	[newMessage release];
 
 	// Display an error message if the message was not delivered
 	if (!success) {
@@ -121,11 +121,6 @@
 		// We delivered a correction
 		correctionComing = YES;  // Let's not track it in our substitution history
 	}
-
-	// Uncomment to crash :p
-	//	[newMessageText release];
-
-	[newMessage release];
 
 }
 
