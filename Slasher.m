@@ -92,7 +92,7 @@
 	NSString *transformedMessage = [self string:lastMessageString withSubstitution:messageString];
 	
 	// Bail if an error occurred in Perl
-	if ([transformedMessage length] == 0)
+	if (transformedMessage == NO)
 		return inAttributedString;
 	
 	// Set new message text
@@ -120,6 +120,7 @@
 	[task setArguments:[NSArray arrayWithObjects:@"-e", perlOneLiner, nil]];
 	[task setStandardInput: [NSPipe pipe]]; 
 	[task setStandardOutput:[NSPipe pipe]];
+	[task setStandardError:[NSPipe pipe]];
 	[task launch];
 	
 	NSFileHandle *writeHandle = [[task standardInput] fileHandleForWriting];
@@ -127,10 +128,17 @@
 	[writeHandle closeFile];
 	
 	NSData* outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
-	NSString* outputString = [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
+	NSString* outputString = [[[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding] autorelease];
+	NSData* errorData = [[[task standardError] fileHandleForReading] readDataToEndOfFile];
+	NSString* errorString = [[[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding] autorelease];
 	[task release];
+	
+	if ([errorString length] > 0) {
+		NSLog(@"Slasher Perl error: %@", errorString);
+		return NO;
+	}
 		
-	return [outputString autorelease];
+	return outputString;
 }
 
 
