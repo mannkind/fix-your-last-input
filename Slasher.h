@@ -1,9 +1,9 @@
 //
 //  Slasher.h
-//  Slasher
+//  Slasher substitution plugin for Adium IM
 //
 //  Created by Henrik Nyh on 2007-04-19.
-//  Copyright 2007 __MyCompanyName__. All rights reserved.
+//  Free to modify and redistribute with due credit.
 //
 
 #import <Adium/AIPlugin.h>
