@@ -1,13 +1,14 @@
-README
+# Requirements
 
-In addition to the code in this repository, you need to add the linked frameworks
+In addition to the code in this repository, you'll need the following:
 
-  * Adium.framework
-  * AIUtilities.framework
-  * FriBidi.framework
+    * Adium.framework
+    * AIUtilities.framework
+    * Fribidi.framework
 
-to the project directory. There is a compiled FriBidi.framework in the Frameworks directory of any Adium version checkout. Compile Adium to get compiled versions of Adium.framework and AIUtilities.framework in build/{Deployment|Development}.
-
+You can checkout and compile Adium to get the required frameworks
 See http://trac.adiumx.com/wiki/GettingReleaseAdiumSource for more info on checking out the Adium source.
+
+# Additional References
 
 See http://fadeover.org/blog/archives/25 for more info on writing Adium plugins.

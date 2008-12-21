@@ -1,17 +1,13 @@
-//
-//  HNFixYourLastInputPlugin.m
-//  Perl regexp substitution plugin for Adium IM.
-//
-//  By Henrik Nyh, 2007-04-19.
-//  Free to modify and redistribute with due credit.
-//
-
-// Inspired by http://colloquy.info/extras/details.php?file=50.
-
-/* TODO:
- - Encoding problem: e.g. s/Š/x/g doesn't do anything. s/x/Š/g works fine, strangely.
- - Handle command injection? Probably not.
-*/
+/**
+ * HNFixYourLastInputPlugin
+ * Regex substitution plugin for Adium
+ *
+ * Inspired by http://colloquy.info/extras/details.php?file=50.
+ *
+ * Originally By Henrik Nyh, 2007-04-19
+ * Modified By Dustin Brewer, 2008-02-20
+ *
+ */
 
 #import "HNFixYourLastInputPlugin.h"
 #import <Adium/AIAdiumProtocol.h>
@@ -27,18 +23,17 @@
 
 @implementation HNFixYourLastInputPlugin
 
-
 - (NSString *)pluginAuthor {
-	return @"Henrik Nyh";
+	return @"Henrik Nyh and Dustin Brewer";
 }
 - (NSString *)pluginURL {
-	return @"http://henrik.nyh.se/";
+    return @"http://henrik.nyh.se/ ; http://www.dustinbrewer.name";
 }
 - (NSString *)pluginVersion {
-	return @"1.0";
+	return @"2.0";
 }
 - (NSString *)pluginDescription {
-	return @"Fix typos by writing Perl regular expression substitutions like \"s/tyop/typo/g\". Sending a message comprising a substitution will output your previous message with this correction applied.";
+	return @"Fix typos by writing regular expression substitutions like \"s/tyop/typo/g\". Sending a message comprising a substitution will output your previous message with this correction applied.";
 }
 
 
@@ -48,7 +43,8 @@
 
 	lastOutgoingMessages = [[NSMutableDictionary alloc] init];
 
-	[[adium contentController] registerContentFilter:self ofType:AIFilterContent direction:AIFilterOutgoing];
+	[[adium contentController] registerContentFilter:self 
+        ofType:AIFilterContent direction:AIFilterOutgoing];
 }
 
 
@@ -60,13 +56,16 @@
 }
 
 
-- (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context {
+- (NSAttributedString *)filterAttributedString: 
+    (NSAttributedString *)inAttributedString context:(id)context {
 
-	BOOL isMessage = ([context isKindOfClass:[AIContentMessage class]] && ![(AIContentMessage *)context isAutoreply]);
+	BOOL isMessage = ([context isKindOfClass:[AIContentMessage class]] && 
+        ![(AIContentMessage *)context isAutoreply]);
 	
 	// Bail unless it's a message
-	if (!isMessage)
+	if (!isMessage) {
 		return inAttributedString;
+    }
 
 	id destination = [context destination];
 	NSDate *date = [context date];
@@ -74,14 +73,20 @@
 
 	// Bail if the message wasn't written just now
 	// Casting from NSTimeInterval==double to int
-	NSTimeInterval writtenSecondsAgo = [[NSDate date] timeIntervalSinceDate:date];
-	if ((int)writtenSecondsAgo != 0)
+	NSTimeInterval writtenSecondsAgo = 
+        [[NSDate date] timeIntervalSinceDate:date];
+
+	if ((int)writtenSecondsAgo != 0) {
 		return inAttributedString;
+    }
 
 	// Naive way of determining if it's a transform message
-	BOOL isATransform = [messageString hasPrefix:@"s/"] && ([[messageString componentsSeparatedByString:@"/"] count] > 3) && ([[messageString componentsSeparatedByString:@"\n"] count] == 1);
+	BOOL isATransform = [messageString hasPrefix:@"s/"] && 
+        ([[messageString componentsSeparatedByString:@"/"] count] > 3) &&
+        ([[messageString componentsSeparatedByString:@"\n"] count] == 1);
 	
-	NSString *lastMessageString = [lastOutgoingMessages valueForKey:[destination UID]];
+	NSString *lastMessageString = 
+        [lastOutgoingMessages valueForKey:[destination UID]];
 
 	// Bail if last message wasn't a transform, or there is no history
 	if (!isATransform || !lastMessageString) {
@@ -89,16 +94,25 @@
 		return inAttributedString;
 	}
 	
-	NSString *transformedMessage = [self string:lastMessageString withSubstitution:messageString];
+	NSString *transformedMessage = 
+        [self string:lastMessageString withSubstitution:messageString];
 	
 	// Bail if an error occurred in Perl
-	if (transformedMessage == NO)
+	if (transformedMessage == NO) {
 		return inAttributedString;
+    }
 	
 	// Set new message text
-	NSString *newMessageRawText = [NSString stringWithFormat:AILocalizedString(@"Correction (%@): %@", nil), messageString, transformedMessage];
-	NSDictionary *defaultFormatting = [[adium contentController] defaultFormattingAttributes];
-	NSAttributedString *newMessageText = [[NSAttributedString alloc] initWithString:newMessageRawText attributes:defaultFormatting];
+	NSString *newMessageRawText = [NSString stringWithFormat: 
+		AILocalizedString(@"Correction (%@): %@", nil), messageString, 
+		transformedMessage];
+
+	NSDictionary *defaultFormatting = 
+        [[adium contentController] defaultFormattingAttributes];
+
+	NSAttributedString *newMessageText = 
+        [[NSAttributedString alloc] initWithString:
+            newMessageRawText attributes:defaultFormatting];
 
 	return newMessageText;
 }
@@ -110,13 +124,19 @@
 
 
 // Applies substitution to string
-- (NSString *)string: (NSString *)string withSubstitution:(NSString*)substitution {
+- (NSString *)string: (NSString *)string 
+    withSubstitution:(NSString*)substitution {
 
-	NSString *perlOneLiner = [NSString stringWithFormat:@"use utf8; binmode STDIN, ':utf8'; binmode STDOUT, ':utf8'; ($s=<>)=~%@; print $s;", substitution];
+    // Trim the string for comparison later
+	string = [string stringByTrimmingCharactersInSet:
+        [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+    NSString *command = [[NSString alloc] initWithFormat:
+        @"echo \"%@\" | sed -e '%@'", string, substitution];
 
 	NSTask *task = [NSTask new];
-	[task setLaunchPath:@"/usr/bin/perl"];
-	[task setArguments:[NSArray arrayWithObjects:@"-e", perlOneLiner, nil]];
+	[task setLaunchPath:@"/bin/sh"];
+	[task setArguments:[NSArray arrayWithObjects:@"-c", command, nil]];
 	[task setStandardInput: [NSPipe pipe]]; 
 	[task setStandardOutput:[NSPipe pipe]];
 	[task setStandardError:[NSPipe pipe]];
@@ -126,14 +146,32 @@
 	[writeHandle writeData: [string dataUsingEncoding: NSUTF8StringEncoding]];
 	[writeHandle closeFile];
 	
-	NSData* outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
-	NSString* outputString = [[[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding] autorelease];
-	NSData* errorData = [[[task standardError] fileHandleForReading] readDataToEndOfFile];
-	NSString* errorString = [[[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding] autorelease];
+	NSData* outputData = [[[task standardOutput] fileHandleForReading]
+        readDataToEndOfFile];
+
+	NSString* outputString = [[[NSString alloc] initWithData:
+        outputData encoding:NSUTF8StringEncoding] autorelease];
+
+    // Trim string for comparison
+	outputString = [outputString stringByTrimmingCharactersInSet:
+        [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+	NSData* errorData = [[[task standardError] fileHandleForReading] 
+        readDataToEndOfFile];
+
+	NSString* errorString = [[[NSString alloc] initWithData:errorData 
+        encoding:NSUTF8StringEncoding] autorelease];
+
 	[task release];
-	
+
+    // If errors
 	if ([errorString length] > 0) {
-		NSLog(@"Fix Your Last Input plugin Perl error: %@", errorString);
+		NSLog(@"Fix Your Last Input plugin error: %@", errorString);
+		return NO;
+	}
+
+    // If nothing changed
+	if ([outputString isEqualToString:string]) {
 		return NO;
 	}
 		

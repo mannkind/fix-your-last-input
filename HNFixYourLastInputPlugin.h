@@ -7,6 +7,8 @@
 //
 
 #import <Adium/AIPlugin.h>
+#import <Adium/AISharedAdium.h>
+#import <AIUtilities/AITigerCompatibility.h>
 #import <Cocoa/Cocoa.h>
 
 @protocol AIContentFilter;

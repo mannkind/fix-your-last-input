@@ -3,16 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		555817680EFC4327001A7B7B /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 555817650EFC4324001A7B7B /* AIUtilities.framework */; };
+		555817690EFC4327001A7B7B /* Adium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 555817660EFC4327001A7B7B /* Adium.framework */; };
+		5558176A0EFC4327001A7B7B /* FriBidi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 555817670EFC4327001A7B7B /* FriBidi.framework */; };
+		555818660EFC4350001A7B7B /* HNFixYourLastInputPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 555818650EFC4350001A7B7B /* HNFixYourLastInputPlugin.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		AF3BE28D0BD8018300AA0E8F /* Adium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF3BE28C0BD8018300AA0E8F /* Adium.framework */; };
-		AF3BE2910BD8018C00AA0E8F /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF3BE2900BD8018C00AA0E8F /* AIUtilities.framework */; };
-		AF3BE2950BD801A900AA0E8F /* FriBidi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF3BE2940BD801A900AA0E8F /* FriBidi.framework */; };
-		AF9403230BD91AB900DD2922 /* HNFixYourLastInputPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9403200BD91AB900DD2922 /* HNFixYourLastInputPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,14 +20,14 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		8D5B49B6048680CD000E48DA /* FixYourLastInput.AdiumPlugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FixYourLastInput.AdiumPlugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
-		AF3BE28C0BD8018300AA0E8F /* Adium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Adium.framework; sourceTree = "<group>"; };
-		AF3BE2900BD8018C00AA0E8F /* AIUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AIUtilities.framework; sourceTree = "<group>"; };
-		AF3BE2940BD801A900AA0E8F /* FriBidi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FriBidi.framework; sourceTree = "<group>"; };
-		AF9403200BD91AB900DD2922 /* HNFixYourLastInputPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HNFixYourLastInputPlugin.m; sourceTree = "<group>"; };
-		AF9403210BD91AB900DD2922 /* HNFixYourLastInputPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HNFixYourLastInputPlugin.h; sourceTree = "<group>"; };
-		AF9403220BD91AB900DD2922 /* FixYourLastInput_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FixYourLastInput_Prefix.pch; sourceTree = "<group>"; };
+		32DBCF630370AF2F00C91783 /* FixYourLastInputPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixYourLastInputPlugin_Prefix.pch; sourceTree = "<group>"; };
+		555817650EFC4324001A7B7B /* AIUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AIUtilities.framework; sourceTree = "<group>"; };
+		555817660EFC4327001A7B7B /* Adium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Adium.framework; sourceTree = "<group>"; };
+		555817670EFC4327001A7B7B /* FriBidi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FriBidi.framework; sourceTree = "<group>"; };
+		555818640EFC4350001A7B7B /* HNFixYourLastInputPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNFixYourLastInputPlugin.h; sourceTree = "<group>"; };
+		555818650EFC4350001A7B7B /* HNFixYourLastInputPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNFixYourLastInputPlugin.m; sourceTree = "<group>"; };
+		8D5B49B6048680CD000E48DA /* FixYourLastInputPlugin.AdiumPlugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FixYourLastInputPlugin.AdiumPlugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -37,16 +37,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				AF3BE28D0BD8018300AA0E8F /* Adium.framework in Frameworks */,
-				AF3BE2910BD8018C00AA0E8F /* AIUtilities.framework in Frameworks */,
-				AF3BE2950BD801A900AA0E8F /* FriBidi.framework in Frameworks */,
+				555817680EFC4327001A7B7B /* AIUtilities.framework in Frameworks */,
+				555817690EFC4327001A7B7B /* Adium.framework in Frameworks */,
+				5558176A0EFC4327001A7B7B /* FriBidi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		089C166AFE841209C02AAC07 /* Slasher */ = {
+		089C166AFE841209C02AAC07 /* FixYourLastInputPlugin */ = {
 			isa = PBXGroup;
 			children = (
 				08FB77AFFE84173DC02AAC07 /* Classes */,
@@ -55,7 +55,7 @@
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
-			name = Slasher;
+			name = FixYourLastInputPlugin;
 			sourceTree = "<group>";
 		};
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
@@ -79,8 +79,8 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				AF9403200BD91AB900DD2922 /* HNFixYourLastInputPlugin.m */,
-				AF9403210BD91AB900DD2922 /* HNFixYourLastInputPlugin.h */,
+				555818640EFC4350001A7B7B /* HNFixYourLastInputPlugin.h */,
+				555818650EFC4350001A7B7B /* HNFixYourLastInputPlugin.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -88,9 +88,9 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AF3BE2940BD801A900AA0E8F /* FriBidi.framework */,
-				AF3BE2900BD8018C00AA0E8F /* AIUtilities.framework */,
-				AF3BE28C0BD8018300AA0E8F /* Adium.framework */,
+				555817650EFC4324001A7B7B /* AIUtilities.framework */,
+				555817660EFC4327001A7B7B /* Adium.framework */,
+				555817670EFC4327001A7B7B /* FriBidi.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -109,7 +109,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D5B49B6048680CD000E48DA /* FixYourLastInput.AdiumPlugin */,
+				8D5B49B6048680CD000E48DA /* FixYourLastInputPlugin.AdiumPlugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,7 +117,7 @@
 		32C88E010371C26100C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				AF9403220BD91AB900DD2922 /* FixYourLastInput_Prefix.pch */,
+				32DBCF630370AF2F00C91783 /* FixYourLastInputPlugin_Prefix.pch */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -125,9 +125,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D5B49AC048680CD000E48DA /* HNFixYourLastInputPlugin */ = {
+		8D5B49AC048680CD000E48DA /* FixYourLastInputPlugin */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "HNFixYourLastInputPlugin" */;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "FixYourLastInputPlugin" */;
 			buildPhases = (
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
@@ -137,10 +137,10 @@
 			);
 			dependencies = (
 			);
-			name = HNFixYourLastInputPlugin;
+			name = FixYourLastInputPlugin;
 			productInstallPath = "$(HOME)/Library/Bundles";
-			productName = Slasher;
-			productReference = 8D5B49B6048680CD000E48DA /* FixYourLastInput.AdiumPlugin */;
+			productName = FixYourLastInputPlugin;
+			productReference = 8D5B49B6048680CD000E48DA /* FixYourLastInputPlugin.AdiumPlugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -148,12 +148,14 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "FixYourLastInput" */;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "FixYourLastInputPlugin" */;
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
-			mainGroup = 089C166AFE841209C02AAC07 /* Slasher */;
+			mainGroup = 089C166AFE841209C02AAC07 /* FixYourLastInputPlugin */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
-				8D5B49AC048680CD000E48DA /* HNFixYourLastInputPlugin */,
+				8D5B49AC048680CD000E48DA /* FixYourLastInputPlugin */,
 			);
 		};
 /* End PBXProject section */
@@ -174,7 +176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF9403230BD91AB900DD2922 /* HNFixYourLastInputPlugin.m in Sources */,
+				555818660EFC4350001A7B7B /* HNFixYourLastInputPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,53 +197,44 @@
 		1DEB913B08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/tmp/Adium1.0.2/build/Deployment,
-					/tmp/Adium1.0.2/Frameworks,
+					"\"$(SRCROOT)\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = FixYourLastInput_Prefix.pch;
+				GCC_PREFIX_HEADER = FixYourLastInputPlugin_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
 				);
-				PRODUCT_NAME = FixYourLastInput;
+				PRODUCT_NAME = FixYourLastInputPlugin;
 				WRAPPER_EXTENSION = AdiumPlugin;
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/tmp/Adium1.0.2/build/Deployment,
-					/tmp/Adium1.0.2/Frameworks,
+					"\"$(SRCROOT)\"",
 				);
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = FixYourLastInput_Prefix.pch;
+				GCC_PREFIX_HEADER = FixYourLastInputPlugin_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PRODUCT_NAME = FixYourLastInput;
+				PRODUCT_NAME = FixYourLastInputPlugin;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
 			name = Release;
@@ -249,27 +242,33 @@
 		1DEB913F08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
 			};
 			name = Debug;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "HNFixYourLastInputPlugin" */ = {
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "FixYourLastInputPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913B08733D840010E9CD /* Debug */,
@@ -278,7 +277,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "FixYourLastInput" */ = {
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "FixYourLastInputPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913F08733D840010E9CD /* Debug */,
