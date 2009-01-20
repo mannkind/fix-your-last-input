@@ -30,7 +30,7 @@
     return @"http://henrik.nyh.se/ ; http://www.dustinbrewer.name";
 }
 - (NSString *)pluginVersion {
-	return @"2.0";
+	return @"2.1";
 }
 - (NSString *)pluginDescription {
 	return @"Fix typos by writing regular expression substitutions like \"s/tyop/typo/g\". Sending a message comprising a substitution will output your previous message with this correction applied.";
@@ -131,8 +131,17 @@
 	string = [string stringByTrimmingCharactersInSet:
         [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-    NSString *command = [[NSString alloc] initWithFormat:
-        @"echo \"%@\" | sed -e '%@'", string, substitution];
+    // Replace $ with \$ for the shell
+    // In 10.5 this could be done via the following line (I think)
+    // string = [string stringByReplacingOccurrencesOfString:@"$" withString:@"\\$"];
+	NSMutableString *mstring = [[NSMutableString alloc] initWithString:string];
+	[mstring replaceOccurrencesOfString:@"$" 
+							 withString:@"\\$" 
+								options:0
+								  range:NSMakeRange(0, [mstring length])];
+	string = mstring;
+    NSString *command = [[NSString alloc] 
+						 initWithFormat:@"echo \"%@\" | sed -e '%@'", string, substitution];
 
 	NSTask *task = [NSTask new];
 	[task setLaunchPath:@"/bin/sh"];
