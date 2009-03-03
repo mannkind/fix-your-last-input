@@ -15,6 +15,8 @@
 
 @interface HNFixYourLastInputPlugin : AIPlugin <AIContentFilter> {
 	NSMutableDictionary *lastOutgoingMessages;
+	NSMenuItem			*toggleCorrectionMI;
+	BOOL				enableCorrectionText;
 }
 
 @end

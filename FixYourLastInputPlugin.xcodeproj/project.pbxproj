@@ -214,11 +214,13 @@
 				GCC_PREFIX_HEADER = FixYourLastInputPlugin_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
 				);
 				PRODUCT_NAME = FixYourLastInputPlugin;
+				SDKROOT = macosx10.4;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
 			name = Debug;
@@ -237,7 +239,9 @@
 				GCC_PREFIX_HEADER = FixYourLastInputPlugin_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = FixYourLastInputPlugin;
+				SDKROOT = macosx10.4;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
 			name = Release;

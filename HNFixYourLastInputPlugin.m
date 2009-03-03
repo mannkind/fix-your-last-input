@@ -13,8 +13,12 @@
 #import <Adium/AIAdiumProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
+#import <Adium/AIMenuControllerProtocol.h>
+#import <Adium/AIPreferenceControllerProtocol.h>
+#import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIStringUtilities.h>
-
 
 @interface HNFixYourLastInputPlugin (Private)
 - (NSString *)string: (NSString *)string withSubstitution:(NSString*)substitution;
@@ -44,17 +48,40 @@
 	lastOutgoingMessages = [[NSMutableDictionary alloc] init];
 
 	[[adium contentController] registerContentFilter:self 
-        ofType:AIFilterContent direction:AIFilterOutgoing];
+											  ofType:AIFilterContent 
+										   direction:AIFilterOutgoing];
+
+	enableCorrectionText = YES;
+	toggleCorrectionMI = [[NSMenuItem alloc] initWithTitle:@"Hide Regex Correction Text"
+													target:self
+													action:@selector(toggleCorrection:) 
+											 keyEquivalent:@""];
+	
+	[[adium menuController] addMenuItem:toggleCorrectionMI toLocation:LOC_Edit_Additions];
 }
 
 
 - (void)uninstallPlugin {
 
 	[lastOutgoingMessages release];
+	[toggleCorrectionMI release];
 
 	[[adium contentController] unregisterContentFilter:self];
 }
 
+- (void)toggleCorrection:(id)sender {
+	enableCorrectionText = enableCorrectionText ? NO : YES;
+	[[adium preferenceController] setPreference:[NSNumber numberWithBool:enableCorrectionText]
+										 forKey:@"enableCorrectiontext" 
+										  group:@"HNFixYourLastInput"];
+	
+	NSString * toggleCorrectionMenuTitle = enableCorrectionText ? @"Hide Regex Correction Text" : @"Show Regex Correction Text";
+	[toggleCorrectionMI setTitle:toggleCorrectionMenuTitle];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+	return YES;
+}
 
 - (NSAttributedString *)filterAttributedString: 
     (NSAttributedString *)inAttributedString context:(id)context {
@@ -103,10 +130,13 @@
     }
 	
 	// Set new message text
-	NSString *newMessageRawText = [NSString stringWithFormat: 
-		AILocalizedString(@"Correction (%@): %@", nil), messageString, 
-		transformedMessage];
-
+	NSString *newMessageRawText;
+	if (enableCorrectionText) { 
+		newMessageRawText = [NSString stringWithFormat: 
+		    AILocalizedString(@"Correction (%@): %@", nil), messageString, transformedMessage];	
+	} else {
+        newMessageRawText = [NSString stringWithFormat: AILocalizedString(@"%@", nil), transformedMessage];
+	}
 	NSDictionary *defaultFormatting = 
         [[adium contentController] defaultFormattingAttributes];
 
