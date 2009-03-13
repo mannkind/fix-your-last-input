@@ -135,7 +135,7 @@
 		newMessageRawText = [NSString stringWithFormat: 
 		    AILocalizedString(@"Correction (%@): %@", nil), messageString, transformedMessage];	
 	} else {
-        newMessageRawText = [NSString stringWithFormat: AILocalizedString(@"%@", nil), transformedMessage];
+        newMessageRawText = [NSString stringWithFormat: AILocalizedString(@"Correction: %@", nil), transformedMessage];
 	}
 	NSDictionary *defaultFormatting = 
         [[adium contentController] defaultFormattingAttributes];
