@@ -34,7 +34,7 @@
     return @"http://henrik.nyh.se/ ; http://www.dustinbrewer.name";
 }
 - (NSString *)pluginVersion {
-	return @"2.1";
+	return @"2.3";
 }
 - (NSString *)pluginDescription {
 	return @"Fix typos by writing regular expression substitutions like \"s/tyop/typo/g\". Sending a message comprising a substitution will output your previous message with this correction applied.";
@@ -51,11 +51,16 @@
 											  ofType:AIFilterContent 
 										   direction:AIFilterOutgoing];
 
-	enableCorrectionText = YES;
-	toggleCorrectionMI = [[NSMenuItem alloc] initWithTitle:@"Hide Regex Correction Text"
+	enableCorrectionText = [[[adium preferenceController] preferenceForKey:@"enableCorrectionText" 
+																	 group:@"HNFixYourLastInput"] boolValue];
+		
+	toggleCorrectionMI = [[[NSMenuItem allocWithZone: [NSMenu menuZone]] initWithTitle:@"Show Regex Correction Text"
 													target:self
 													action:@selector(toggleCorrection:) 
-											 keyEquivalent:@""];
+											 keyEquivalent:@""] autorelease];
+	
+	if (enableCorrectionText) {	[toggleCorrectionMI setState:NSOnState]; }
+	else { [toggleCorrectionMI setState:NSOffState]; }
 	
 	[[adium menuController] addMenuItem:toggleCorrectionMI toLocation:LOC_Edit_Additions];
 }
@@ -64,7 +69,6 @@
 - (void)uninstallPlugin {
 
 	[lastOutgoingMessages release];
-	[toggleCorrectionMI release];
 
 	[[adium contentController] unregisterContentFilter:self];
 }
@@ -72,11 +76,11 @@
 - (void)toggleCorrection:(id)sender {
 	enableCorrectionText = enableCorrectionText ? NO : YES;
 	[[adium preferenceController] setPreference:[NSNumber numberWithBool:enableCorrectionText]
-										 forKey:@"enableCorrectiontext" 
+										 forKey:@"enableCorrectionText" 
 										  group:@"HNFixYourLastInput"];
 	
-	NSString * toggleCorrectionMenuTitle = enableCorrectionText ? @"Hide Regex Correction Text" : @"Show Regex Correction Text";
-	[toggleCorrectionMI setTitle:toggleCorrectionMenuTitle];
+	if (enableCorrectionText) {	[toggleCorrectionMI setState:NSOnState]; }
+	else { [toggleCorrectionMI setState:NSOffState]; }
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
