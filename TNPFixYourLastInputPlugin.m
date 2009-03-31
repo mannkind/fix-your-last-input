@@ -145,7 +145,7 @@
 	return DEFAULT_FILTER_PRIORITY;
 }
 
-- (NSString*)runReplacementOnString:(NSString *)string usingCommand:(NSString *)command {
+- (NSString *)runReplacementOnString:(NSString *)string usingCommand:(NSString *)command {
 	NSTask *task = [NSTask new];
 	[task setLaunchPath:@"/bin/sh"];
 	[task setArguments:[NSArray arrayWithObjects:@"-c", command, nil]];
@@ -159,15 +159,16 @@
 	[writeHandle closeFile];
 	
 	NSData *outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
-	NSString* outputString = [[[NSString alloc] initWithData:outputData 
+	NSString *outputString = [[[NSString alloc] initWithData:outputData 
 													encoding:NSUTF8StringEncoding] autorelease];
 	
 	// Trim string for comparison
 	string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	outputString = [outputString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	
-	NSData* errorData = [[[task standardError] fileHandleForReading] readDataToEndOfFile];
-	NSString* errorString = [[NSString alloc] initWithData:errorData 
+	NSData *errorData = [[[task standardError] fileHandleForReading] readDataToEndOfFile];
+	
+	NSString *errorString = [[NSString alloc] initWithData:errorData 
 												  encoding:NSUTF8StringEncoding];
 
 	[task release];
