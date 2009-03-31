@@ -1,5 +1,5 @@
 /**
- * HNFixYourLastInputPlugin
+ * TNPFixYourLastInputPlugin
  * Regex substitution plugin for Adium
  *
  * Inspired by http://colloquy.info/extras/details.php?file=50.
@@ -198,7 +198,7 @@
 	NSString *outputString = [self runReplacementOnString:string usingCommand:command];
 	[command release];
 
-	return outputString;
+    return outputString;
 }
 
 
