@@ -11,7 +11,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.henriknyh.fixyourlastinput</string>
+	<string>net.thenullpointer.fixyourlastinput</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -23,6 +23,6 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>NSPrincipalClass</key>
-	<string>HNFixYourLastInputPlugin</string>
+	<string>TNPFixYourLastInputPlugin</string>
 </dict>
 </plist>
