@@ -23,6 +23,7 @@
 @interface TNPFixYourLastInputPlugin (Private)
 - (NSString *)replaceString:(NSString *)string withSubstitution:(NSString *)substitution;
 - (NSString *)runReplacementOnString:(NSString *)string usingCommand:(NSString *)command;
+- (NSString *)escapeShellCommand:(NSString *)string;
 @end
 
 
@@ -192,14 +193,22 @@
 
 // Applies substitution to string
 - (NSString *)replaceString:(NSString *)string withSubstitution:(NSString*)substitution {
-    // Replace $ with \$ for the shell
-    string = [string stringByReplacingOccurrencesOfString:@"$" withString:@"\\$"];
-	// Setup the sed command
+    string = [self escapeShellCommand:string];
     NSString *command = [[NSString alloc] initWithFormat:@"echo \"%@\" | sed -e '%@'", string, substitution];
 	NSString *outputString = [self runReplacementOnString:string usingCommand:command];
 	[command release];
 
     return outputString;
+}
+
+// Escaping characters for output to the shell... 
+- (NSString *)escapeShellCommand:(NSString *)string {
+	string = [string stringByReplacingOccurrencesOfString:@"$" withString:@"\\$"];
+	string = [string stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+	string = [string stringByReplacingOccurrencesOfString:@"`" withString:@"\\`"];
+	string = [string stringByReplacingOccurrencesOfString:@"\\" withString:@"\\"];
+	
+	return string;
 }
 
 
