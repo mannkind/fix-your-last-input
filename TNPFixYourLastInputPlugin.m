@@ -36,7 +36,7 @@
     return @"http://www.dustinbrewer.name";
 }
 - (NSString *)pluginVersion {
-	return @"2.3.1";
+	return @"2.3.2";
 }
 - (NSString *)pluginDescription {
 	return @"Fix typos by writing regular expression substitutions like \"s/tyop/typo/g\". Sending a message comprising a substitution will output your previous message with this correction applied.";
@@ -203,10 +203,10 @@
 
 // Escaping characters for output to the shell... 
 - (NSString *)escapeShellCommand:(NSString *)string {
+	string = [string stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
 	string = [string stringByReplacingOccurrencesOfString:@"$" withString:@"\\$"];
 	string = [string stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
 	string = [string stringByReplacingOccurrencesOfString:@"`" withString:@"\\`"];
-	string = [string stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
 	
 	return string;
 }
