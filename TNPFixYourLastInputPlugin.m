@@ -194,6 +194,7 @@
 // Applies substitution to string
 - (NSString *)replaceString:(NSString *)string withSubstitution:(NSString*)substitution {
     string = [self escapeShellCommand:string];
+    substitution = [self escapeShellCommand:substitution];
     NSString *command = [[NSString alloc] initWithFormat:@"echo \"%@\" | sed -e '%@'", string, substitution];
 	NSString *outputString = [self runReplacementOnString:string usingCommand:command];
 	[command release];
