@@ -4,9 +4,9 @@
  *
  * Inspired by http://colloquy.info/extras/details.php?file=50.
  *
- * Originally By Henrik Nyh, 2007-04-19
- * Modified By Dustin Brewer, 2008-02-20
- *
+ * Originally By Henrik Nyh (using Perl), 2007-04-19
+ * Modified By Dustin Brewer (using Sed), 2008-02-20
+ * Modified By Dustin Brewer (using ObjPCRE), 2010-04-24
  */
 
 #import "TNPFixYourLastInputPlugin.h"
@@ -19,13 +19,7 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIStringUtilities.h>
-
-@interface TNPFixYourLastInputPlugin (Private)
-- (NSString *)replaceString:(NSString *)string withSubstitution:(NSString *)substitution;
-- (NSString *)runReplacementOnString:(NSString *)string usingCommand:(NSString *)command;
-- (NSString *)escapeShellCommand:(NSString *)string;
-@end
-
+#import "objpcre.h"
 
 @implementation TNPFixYourLastInputPlugin
 
@@ -33,10 +27,10 @@
 	return @"Dustin Brewer";
 }
 - (NSString *)pluginURL {
-    return @"http://www.dustinbrewer.name";
+    return @"http://www.thenullpointer.net";
 }
 - (NSString *)pluginVersion {
-	return @"2.3.2";
+	return @"2.4";
 }
 - (NSString *)pluginDescription {
 	return @"Fix typos by writing regular expression substitutions like \"s/tyop/typo/g\". Sending a message comprising a substitution will output your previous message with this correction applied.";
@@ -44,14 +38,14 @@
 
 
 - (void)installPlugin {
-	NSLog(@"HNFixYourLastInputPlugin loaded!");
+	NSLog(@"TNPFixYourLastInputPlugin loaded!");
 	[[adium contentController] registerContentFilter:self 
 											  ofType:AIFilterContent 
 										   direction:AIFilterOutgoing];
 
 	lastOutgoingMessages = [[NSMutableDictionary alloc] init];
 	enableCorrectionText = [[[adium preferenceController] preferenceForKey:@"enableCorrectionText" 
-																	 group:@"HNFixYourLastInput"] boolValue];
+																	 group:@"TNPFixYourLastInput"] boolValue];
 		
 	toggleCorrectionMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Show Regex Correction Text" 
 																			  target:self
@@ -79,7 +73,7 @@
 	
 	[[adium preferenceController] setPreference:[NSNumber numberWithBool:enableCorrectionText]
 										 forKey:@"enableCorrectionText" 
-										  group:@"HNFixYourLastInput"];
+										  group:@"TNPFixYourLastInput"];
 	
 	if (enableCorrectionText) {
 		[toggleCorrectionMI setState:NSOnState];
@@ -93,51 +87,76 @@
 }
 
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context {
-	BOOL isMessage = ([context isKindOfClass:[AIContentMessage class]] && 
-        ![(AIContentMessage *)context isAutoreply]);
+	// Determine if the string is a real message
+	BOOL isMessage = [context isKindOfClass:[AIContentMessage class]] && ![(AIContentMessage *)context isAutoreply];
 	
 	// Bail unless it's a message
-	if (!isMessage) { return inAttributedString; }
+	if (!isMessage) { 
+		return inAttributedString; 
+	}
 
 	id destination = [context destination];
-	NSDate *date = [context date];
 	NSString *messageString = [context messageString];
 
 	// Bail if the message wasn't written just now
 	// Casting from NSTimeInterval==double to int
-	NSTimeInterval writtenSecondsAgo = [[NSDate date] timeIntervalSinceDate:date];
+	if ((int)[[NSDate date] timeIntervalSinceDate:[context date]] != 0) { 
+		return inAttributedString; 
+	}
 
-	if ((int)writtenSecondsAgo != 0) { return inAttributedString; }
-
+	BOOL startsWithSSlash = [messageString hasPrefix:@"s/"];
+	NSArray *pieces = [messageString componentsSeparatedByString:@"/"];
+	NSArray *oneline = [messageString componentsSeparatedByString:@"\n"];
+	
 	// Naive way of determining if it's a transform message
-	BOOL isATransform = ([messageString hasPrefix:@"s/"] && 
-		[[messageString componentsSeparatedByString:@"/"] count] > 3 &&
-		[[messageString componentsSeparatedByString:@"\n"] count] == 1);
+	BOOL isATransform = startsWithSSlash && [pieces count] > 3 && [oneline count] == 1;
 	
 	NSString *lastMessageString = [lastOutgoingMessages valueForKey:[destination UID]];
-
+	
 	// Bail if last message wasn't a transform, or there is no history
 	if (!isATransform || !lastMessageString) {
-		[lastOutgoingMessages setValue:messageString forKey:[destination UID]];
+		[lastOutgoingMessages setValue:messageString 
+								forKey:[destination UID]];
+		
 		return inAttributedString;
 	}
 	
-	NSString *transformedMessage = [self replaceString:lastMessageString withSubstitution:messageString];
+	NSString *pattern = [pieces objectAtIndex:1];
+	NSString *replacement = [pieces objectAtIndex:2];
+	NSString *opts = [pieces objectAtIndex:3];
+	NSRange caseInsensitive = [opts rangeOfString:@"i"];
+	NSRange globalReplacement = [opts rangeOfString:@"g"];
 	
-	// Bail if an error occurred using the command
-	if (transformedMessage == NO) { return inAttributedString; }
+	ObjPCRE *regex;
+	if (caseInsensitive.location != NSNotFound) {
+		regex = [[ObjPCRE alloc] initWithPattern:pattern 
+									  andOptions:PCRE_CASELESS];
+	} else {
+		regex = [[ObjPCRE alloc] initWithPattern:pattern];
+	}
+	
+	NSString *transformedMessage = [NSString stringWithString: lastMessageString];
+	if (globalReplacement.location != NSNotFound) {
+		[regex replaceAll:&transformedMessage
+			  replacement:replacement];
+	} else {
+		[regex replaceFirst:&transformedMessage
+				replacement:replacement];
+	}
+	
+	[regex release];
 	
 	// Set new message text
-	NSString *newMessageRawText = [NSString stringWithFormat:AILocalizedString(@"Correction: %@", nil), transformedMessage];
+	NSString *newMessageRawText;
 	if (enableCorrectionText) { 
 		newMessageRawText = [NSString stringWithFormat:AILocalizedString(@"Correction (%@): %@", nil), messageString, transformedMessage];	
+	} else {
+		newMessageRawText = [NSString stringWithFormat:AILocalizedString(@"Correction: %@", nil), transformedMessage];
 	}
 	
 	NSDictionary *defaultFormatting = [[adium contentController] defaultFormattingAttributes];
-
 	NSAttributedString *newMessageText = [[[NSAttributedString alloc] initWithString:newMessageRawText 
 																		 attributes:defaultFormatting] autorelease];
-
 	return newMessageText;
 }
 
@@ -145,75 +164,5 @@
 - (float)filterPriority {
 	return DEFAULT_FILTER_PRIORITY;
 }
-
-- (NSString *)runReplacementOnString:(NSString *)string usingCommand:(NSString *)command {
-	NSTask *task = [NSTask new];
-	[task setLaunchPath:@"/bin/sh"];
-	[task setArguments:[NSArray arrayWithObjects:@"-c", command, nil]];
-	[task setStandardInput: [NSPipe pipe]]; 
-	[task setStandardOutput:[NSPipe pipe]];
-	[task setStandardError:[NSPipe pipe]];
-	[task launch];
-	
-	NSFileHandle *writeHandle = [[task standardInput] fileHandleForWriting];
-	[writeHandle writeData: [string dataUsingEncoding: NSUTF8StringEncoding]];
-	[writeHandle closeFile];
-	
-	NSData *outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
-	NSString *outputString = [[[NSString alloc] initWithData:outputData 
-													encoding:NSUTF8StringEncoding] autorelease];
-	
-	// Trim string for comparison
-	string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	outputString = [outputString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	
-	NSData *errorData = [[[task standardError] fileHandleForReading] readDataToEndOfFile];
-	
-	NSString *errorString = [[NSString alloc] initWithData:errorData 
-												  encoding:NSUTF8StringEncoding];
-
-	[task release];
-	
-    // If errors
-	if ([errorString length] > 0) {
-		NSLog(@"Fix Your Last Input plugin error: %@", errorString);
-		[errorString release];
-		return NO;
-	}
-	
-	[errorString release];
-	
-    // If nothing changed
-	if ([outputString isEqualToString:string]) {
-		return NO;
-	}
-	
-	return outputString;	
-}
-
-// Applies substitution to string
-- (NSString *)replaceString:(NSString *)string withSubstitution:(NSString*)substitution {
-    string = [self escapeShellCommand:string];
-    substitution = [self escapeShellCommand:substitution];
-    NSString *command = [[NSString alloc] initWithFormat:@"echo \"%@\" | sed -e '%@'", string, substitution];
-	NSString *outputString = [self runReplacementOnString:string usingCommand:command];
-	[command release];
-
-    return outputString;
-}
-
-// Escaping characters for output to the shell... 
-- (NSString *)escapeShellCommand:(NSString *)string {
-	string = [string stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
-	string = [string stringByReplacingOccurrencesOfString:@"$" withString:@"\\$"];
-	string = [string stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-	string = [string stringByReplacingOccurrencesOfString:@"`" withString:@"\\`"];
-	string = [string stringByReplacingOccurrencesOfString:@"!" withString:@"\\!"];
-	string = [string stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-	string = [string stringByReplacingOccurrencesOfString:@";" withString:@"\\;"];
-	
-	return string;
-}
-
 
 @end
