@@ -104,13 +104,8 @@
 		return inAttributedString; 
 	}
 
-	BOOL startsWithSSlash = [messageString hasPrefix:@"s/"];
-	NSArray *pieces = [messageString componentsSeparatedByString:@"/"];
-	NSArray *oneline = [messageString componentsSeparatedByString:@"\n"];
-	
-	// Naive way of determining if it's a transform message
-	BOOL isATransform = startsWithSSlash && [pieces count] > 3 && [oneline count] == 1;
-	
+	ObjPCRE *searchReplacePattern = [ObjPCRE regexWithPattern:@"s/(.*)/(.*)/([ig]+)?"];
+	BOOL isATransform = [searchReplacePattern matches:messageString];
 	NSString *lastMessageString = [lastOutgoingMessages valueForKey:[destination UID]];
 	
 	// Bail if last message wasn't a transform, or there is no history
@@ -121,9 +116,12 @@
 		return inAttributedString;
 	}
 	
-	NSString *pattern = [pieces objectAtIndex:1];
-	NSString *replacement = [pieces objectAtIndex:2];
-	NSString *opts = [pieces objectAtIndex:3];
+	NSString *pattern = [searchReplacePattern match:messageString atMatchIndex:1];
+	NSString *replacement = [searchReplacePattern match:messageString atMatchIndex:2];
+	NSString *opts = @"";
+	if ([searchReplacePattern matchCount] == 4) {
+		opts = [searchReplacePattern match:messageString atMatchIndex:3];
+	}
 	NSRange caseInsensitive = [opts rangeOfString:@"i"];
 	NSRange globalReplacement = [opts rangeOfString:@"g"];
 	
