@@ -78,7 +78,7 @@
 	if (enableCorrectionText) {
 		[toggleCorrectionMI setState:NSOnState];
 	} else {
-		[toggleCorrectionMI setState:NSOnState];
+		[toggleCorrectionMI setState:NSOffState];
 	}
 }
 
