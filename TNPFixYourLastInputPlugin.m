@@ -95,7 +95,7 @@
 		return inAttributedString; 
 	}
 
-	id destination = [context destination];
+	NSString *destination = [[context chat] description];
 	NSString *messageString = [context messageString];
 
 	// Bail if the message wasn't written just now
@@ -106,12 +106,12 @@
 
 	ObjPCRE *searchReplacePattern = [ObjPCRE regexWithPattern:@"s/(.*)/(.*)/([ig]+)?"];
 	BOOL isATransform = [searchReplacePattern matches:messageString];
-	NSString *lastMessageString = [lastOutgoingMessages valueForKey:[destination UID]];
+	NSString *lastMessageString = [lastOutgoingMessages valueForKey:destination];
 	
 	// Bail if last message wasn't a transform, or there is no history
 	if (!isATransform || !lastMessageString) {
 		[lastOutgoingMessages setValue:messageString 
-								forKey:[destination UID]];
+								forKey:destination];
 		
 		return inAttributedString;
 	}
