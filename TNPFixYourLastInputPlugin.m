@@ -155,7 +155,13 @@
 	NSDictionary *defaultFormatting = [[adium contentController] defaultFormattingAttributes];
 	NSAttributedString *newMessageText = [[[NSAttributedString alloc] initWithString:newMessageRawText 
 																		 attributes:defaultFormatting] autorelease];
-	return newMessageText;
+
+	// Overwrite the last outgoing message for this chat
+	[lastOutgoingMessages setValue:transformedMessage 
+							forKey:destination];
+	
+	// Only return the correction string when it changed something
+	return [transformedMessage isEqualToString:lastMessageString] ? nil : newMessageText;
 }
 
 
