@@ -24,149 +24,149 @@
 @implementation TNPFixYourLastInputPlugin
 
 - (NSString *)pluginAuthor {
-	return @"Dustin Brewer";
+  return @"Dustin Brewer";
 }
 - (NSString *)pluginURL {
-    return @"http://www.thenullpointer.net";
+  return @"http://www.thenullpointer.net";
 }
 - (NSString *)pluginVersion {
-	return @"2.4";
+  return @"2.4";
 }
 - (NSString *)pluginDescription {
-	return @"Fix typos by writing regular expression substitutions like \"s/tyop/typo/g\". Sending a message comprising a substitution will output your previous message with this correction applied.";
+  return @"Fix typos by writing regular expression substitutions like \"s/tyop/typo/g\". Sending a message comprising a substitution will output your previous message with this correction applied.";
 }
 
 
 - (void)installPlugin {
-	NSLog(@"TNPFixYourLastInputPlugin loaded!");
-	[[adium contentController] registerContentFilter:self 
-											  ofType:AIFilterContent 
-										   direction:AIFilterOutgoing];
+  NSLog(@"TNPFixYourLastInputPlugin loaded!");
+  [[adium contentController] registerContentFilter:self 
+                                            ofType:AIFilterContent 
+                                         direction:AIFilterOutgoing];
 
-	lastOutgoingMessages = [[NSMutableDictionary alloc] init];
-	enableCorrectionText = [[[adium preferenceController] preferenceForKey:@"enableCorrectionText" 
-																	 group:@"TNPFixYourLastInput"] boolValue];
-		
-	toggleCorrectionMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Show Regex Correction Text" 
-																			  target:self
-																			  action:@selector(toggleCorrection:) 
-																	   keyEquivalent:@""];
-	if (enableCorrectionText) {
-		[toggleCorrectionMI setState:NSOnState];
-	} else {
-		[toggleCorrectionMI setState:NSOffState];
-	}
+  lastOutgoingMessages = [[NSMutableDictionary alloc] init];
+  enableCorrectionText = [[[adium preferenceController] preferenceForKey:@"enableCorrectionText" 
+                                                                   group:@"TNPFixYourLastInput"] boolValue];
+
+  toggleCorrectionMI = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@"Show Regex Correction Text" 
+                                                                            target:self
+                                                                            action:@selector(toggleCorrection:) 
+                                                                     keyEquivalent:@""];
+
+  if (enableCorrectionText) {
+    [toggleCorrectionMI setState:NSOnState];
+  } else {
+    [toggleCorrectionMI setState:NSOffState];
+  }
 	
-	[[adium menuController] addMenuItem:toggleCorrectionMI toLocation:LOC_Edit_Additions];
+  [[adium menuController] addMenuItem:toggleCorrectionMI toLocation:LOC_Edit_Additions];
 }
 
 
 - (void)uninstallPlugin {	
-	[lastOutgoingMessages release];
-	[toggleCorrectionMI release];
+  [lastOutgoingMessages release];
+  [toggleCorrectionMI release];
 	
-	[[adium contentController] unregisterContentFilter:self];
+  [[adium contentController] unregisterContentFilter:self];
 }
 
 - (void)toggleCorrection:(id)sender {
-	enableCorrectionText = enableCorrectionText ? NO : YES;
+  enableCorrectionText = enableCorrectionText ? NO : YES;
 	
-	[[adium preferenceController] setPreference:[NSNumber numberWithBool:enableCorrectionText]
-										 forKey:@"enableCorrectionText" 
-										  group:@"TNPFixYourLastInput"];
+  [[adium preferenceController] setPreference:[NSNumber numberWithBool:enableCorrectionText]
+                                       forKey:@"enableCorrectionText" 
+                                        group:@"TNPFixYourLastInput"];
 	
-	if (enableCorrectionText) {
-		[toggleCorrectionMI setState:NSOnState];
-	} else {
-		[toggleCorrectionMI setState:NSOffState];
-	}
+  if (enableCorrectionText) {
+    [toggleCorrectionMI setState:NSOnState];
+  } else {
+    [toggleCorrectionMI setState:NSOffState];
+  }
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-	return YES;
+  return YES;
 }
 
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context {
-	// Determine if the string is a real message
-	BOOL isMessage = [context isKindOfClass:[AIContentMessage class]] && ![(AIContentMessage *)context isAutoreply];
+  // Determine if the string is a real message
+  BOOL isMessage = [context isKindOfClass:[AIContentMessage class]] && ![(AIContentMessage *)context isAutoreply];
 	
-	// Bail unless it's a message
-	if (!isMessage) { 
-		return inAttributedString; 
-	}
-
-	NSString *destination = [[context chat] description];
-	NSString *messageString = [context messageString];
-
-	// Bail if the message wasn't written just now
-	// Casting from NSTimeInterval==double to int
-	if ((int)[[NSDate date] timeIntervalSinceDate:[context date]] != 0) { 
-		return inAttributedString; 
-	}
-
-	ObjPCRE *searchReplacePattern = [ObjPCRE regexWithPattern:@"s/(.*)/(.*)/([ig]+)?"];
-	BOOL isATransform = [searchReplacePattern matches:messageString];
-	NSString *lastMessageString = [lastOutgoingMessages valueForKey:destination];
+  // Bail unless it's a message
+  if (!isMessage) { 
+    return inAttributedString; 
+  }
 	
-	// Bail if last message wasn't a transform, or there is no history
-	if (!isATransform || !lastMessageString) {
-		[lastOutgoingMessages setValue:messageString 
-								forKey:destination];
+  NSString *destination = [[context chat] description];
+  NSString *messageString = [context messageString];
+	
+  // Bail if the message wasn't written just now
+  // Casting from NSTimeInterval==double to int
+  if ((int)[[NSDate date] timeIntervalSinceDate:[context date]] != 0) { 
+    return inAttributedString; 
+  }
+	
+  ObjPCRE *searchReplacePattern = [ObjPCRE regexWithPattern:@"s/(.*)/(.*)/([ig]+)?"];
+  BOOL isATransform = [searchReplacePattern matches:messageString];
+  NSString *lastMessageString = [lastOutgoingMessages valueForKey:destination];
+	
+  // Bail if last message wasn't a transform, or there is no history
+  if (!isATransform || !lastMessageString) {
+    [lastOutgoingMessages setValue:messageString 
+                            forKey:destination];
 		
-		return inAttributedString;
-	}
+    return inAttributedString;
+  }
 	
-	NSString *pattern = [searchReplacePattern match:messageString atMatchIndex:1];
-	NSString *replacement = [searchReplacePattern match:messageString atMatchIndex:2];
-	NSString *opts = @"";
-	if ([searchReplacePattern matchCount] == 4) {
-		opts = [searchReplacePattern match:messageString atMatchIndex:3];
-	}
-	NSRange caseInsensitive = [opts rangeOfString:@"i"];
-	NSRange globalReplacement = [opts rangeOfString:@"g"];
-	
-	ObjPCRE *regex;
-	if (caseInsensitive.location != NSNotFound) {
-		regex = [[ObjPCRE alloc] initWithPattern:pattern 
-									  andOptions:PCRE_CASELESS];
-	} else {
-		regex = [[ObjPCRE alloc] initWithPattern:pattern];
-	}
-	
-	NSString *transformedMessage = [NSString stringWithString: lastMessageString];
-	if (globalReplacement.location != NSNotFound) {
-		[regex replaceAll:&transformedMessage
-			  replacement:replacement];
-	} else {
-		[regex replaceFirst:&transformedMessage
-				replacement:replacement];
-	}
-	
-	[regex release];
-	
-	// Set new message text
-	NSString *newMessageRawText;
-	if (enableCorrectionText) { 
-		newMessageRawText = [NSString stringWithFormat:AILocalizedString(@"Correction (%@): %@", nil), messageString, transformedMessage];	
-	} else {
-		newMessageRawText = [NSString stringWithFormat:AILocalizedString(@"Correction: %@", nil), transformedMessage];
-	}
-	
-	NSDictionary *defaultFormatting = [[adium contentController] defaultFormattingAttributes];
-	NSAttributedString *newMessageText = [[[NSAttributedString alloc] initWithString:newMessageRawText 
-																		 attributes:defaultFormatting] autorelease];
+  NSString *pattern = [searchReplacePattern match:messageString atMatchIndex:1];
+  NSString *replacement = [searchReplacePattern match:messageString atMatchIndex:2];
+  NSString *opts = @"";
+  if ([searchReplacePattern matchCount] == 4) {
+    opts = [searchReplacePattern match:messageString atMatchIndex:3];
+  }
+  NSRange caseInsensitive = [opts rangeOfString:@"i"];
+  NSRange globalReplacement = [opts rangeOfString:@"g"];
 
-	// Overwrite the last outgoing message for this chat
-	[lastOutgoingMessages setValue:transformedMessage 
-							forKey:destination];
-	
-	// Only return the correction string when it changed something
-	return [transformedMessage isEqualToString:lastMessageString] ? nil : newMessageText;
+  ObjPCRE *regex;
+  if (caseInsensitive.location != NSNotFound) {
+    regex = [[ObjPCRE alloc] initWithPattern:pattern 
+                                  andOptions:PCRE_CASELESS];
+  } else {
+    regex = [[ObjPCRE alloc] initWithPattern:pattern];
+  }
+
+  NSString *transformedMessage = [NSString stringWithString: lastMessageString];
+  if (globalReplacement.location != NSNotFound) {
+    [regex replaceAll:&transformedMessage
+          replacement:replacement];
+  } else {
+    [regex replaceFirst:&transformedMessage
+            replacement:replacement];
+  }
+
+  [regex release];
+
+  // Set new message text
+  NSString *newMessageRawText;
+  if (enableCorrectionText) { 
+    newMessageRawText = [NSString stringWithFormat:AILocalizedString(@"Correction (%@): %@", nil), messageString, transformedMessage];	
+  } else {
+    newMessageRawText = [NSString stringWithFormat:AILocalizedString(@"Correction: %@", nil), transformedMessage];
+  }
+
+  NSDictionary *defaultFormatting = [[adium contentController] defaultFormattingAttributes];
+  NSAttributedString *newMessageText = [[[NSAttributedString alloc] initWithString:newMessageRawText 
+                                                                        attributes:defaultFormatting] autorelease];
+
+  // Overwrite the last outgoing message for this chat
+  [lastOutgoingMessages setValue:transformedMessage 
+                          forKey:destination];
+
+  // Only return the correction string when it changed something
+  return [transformedMessage isEqualToString:lastMessageString] ? nil : newMessageText;
 }
 
-
 - (float)filterPriority {
-	return DEFAULT_FILTER_PRIORITY;
+  return DEFAULT_FILTER_PRIORITY;
 }
 
 @end

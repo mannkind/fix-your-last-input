@@ -17,8 +17,8 @@
 
 @interface TNPFixYourLastInputPlugin : AIPlugin <AIContentFilter> {
 	NSMutableDictionary *lastOutgoingMessages;
-	NSMenuItem			*toggleCorrectionMI;
-	BOOL				enableCorrectionText;
+	NSMenuItem *toggleCorrectionMI;
+	BOOL *enableCorrectionText;
 }
 
 @end

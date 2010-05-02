@@ -26,8 +26,8 @@
 		555817650EFC4324001A7B7B /* AIUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AIUtilities.framework; sourceTree = "<group>"; };
 		555817660EFC4327001A7B7B /* Adium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Adium.framework; sourceTree = "<group>"; };
 		555817670EFC4327001A7B7B /* FriBidi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FriBidi.framework; sourceTree = "<group>"; };
-		555818640EFC4350001A7B7B /* TNPFixYourLastInputPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TNPFixYourLastInputPlugin.h; sourceTree = "<group>"; };
-		555818650EFC4350001A7B7B /* TNPFixYourLastInputPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = TNPFixYourLastInputPlugin.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
+		555818640EFC4350001A7B7B /* TNPFixYourLastInputPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TNPFixYourLastInputPlugin.h; sourceTree = "<group>"; };
+		555818650EFC4350001A7B7B /* TNPFixYourLastInputPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TNPFixYourLastInputPlugin.m; sourceTree = "<group>"; };
 		55A2E58C118373AA0055A2D5 /* objpcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = objpcre.h; sourceTree = "<group>"; };
 		55A2E58D118373AA0055A2D5 /* objpcre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = objpcre.m; sourceTree = "<group>"; };
 		55A2E58E118373AA0055A2D5 /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre.h; sourceTree = "<group>"; };
